@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>AI Comms Lab · Communicate Smarter Day II</title>
+<meta name="description" content="Short interactive challenges on practical AI for public sector communicators: data safety, RACER prompts, verification, plain language, press work and social media.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--navy:#0B1F3A;--navy2:#14305A;--ink:#0F1B2D;--body:#364152;--soft:#5B6676;--bg:#F6F7F9;--card:#FDFDFE;--line:#D3D9E2;--blue:#1C5BB8;--blue-l:#E2EBF7;--yel:#F4B731;--yel-l:#FCF0D2;--green:#1F7A4A;--green-l:#E1F2E8;--red:#B23A2E;--red-l:#F8E3DF;--amber:#9A6200}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--body);font-family:'IBM Plex Sans',Arial,sans-serif;font-size:17px;line-height:1.5;min-height:100vh}
+header{background:var(--navy);color:#F6F8FB;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:5;border-bottom:4px solid var(--yel)}
+header .brand{font-family:Manrope,Arial,sans-serif;font-weight:800;letter-spacing:.3px}
+header .brand span{color:var(--yel)}
+header button{background:transparent;border:1px solid #3B4A66;color:#F6F8FB;border-radius:8px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer}
+main{max-width:760px;margin:0 auto;padding:20px 16px 72px}
+h1{font-family:Manrope,Arial,sans-serif;color:var(--ink);font-size:30px;line-height:1.15;font-weight:800;letter-spacing:-.3px;margin-bottom:8px}
+h2{font-family:Manrope,Arial,sans-serif;color:var(--ink);font-size:23px;line-height:1.2;margin:4px 0 10px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:6px}
+.muted{color:var(--soft);font-size:15px}.small{font-size:13px}
+.grid{display:grid;gap:10px;margin-top:16px}
+.tile{display:flex;flex-direction:column;gap:2px;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--blue);border-radius:10px;padding:12px 14px;cursor:pointer;text-align:left;font:inherit;width:100%;color:inherit}
+.tile b{color:var(--ink);font-size:18px;font-family:Manrope,Arial,sans-serif}
+.tmod{font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--soft)}
+button:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--yel);outline-offset:2px}
+.prog{height:6px;background:#E3E7EE;border-radius:3px;margin:14px 0 4px;overflow:hidden}.pfill{height:100%;background:var(--yel);transition:width .4s}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-top:14px}
+.card.inner{background:#F2F5F9;border:0}
+.qnum{font-size:13px;font-weight:700;color:var(--soft);margin-bottom:6px;letter-spacing:.5px;text-transform:uppercase}
+.qtext{font-weight:700;color:var(--ink);font-size:19px;margin-bottom:12px;line-height:1.35}
+blockquote{background:#EEF2F8;border-left:5px solid var(--blue);border-radius:6px;padding:12px 14px;margin:6px 0 14px;color:var(--ink);font-size:17px}
+blockquote.src{background:var(--yel-l);border-left-color:var(--yel)}
+.opts{display:grid;gap:8px}
+.opt,.seg{display:flex;gap:10px;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:10px;padding:11px 12px;cursor:pointer;font:inherit;text-align:left;color:var(--ink);width:100%}
+.opt .mark{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--soft);margin-top:2px}
+.opt.small{width:auto;padding:8px 12px;font-size:15px;font-weight:600}
+.seg{justify-content:space-between}.seg .tag{flex:none;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--blue)}
+.opt.sel,.seg.sel{border-color:var(--blue);background:var(--blue-l)}
+.opt.right,.seg.right{border-color:var(--green);background:var(--green-l)}.opt.right .mark{background:var(--green);border-color:var(--green)}
+.opt.wrong,.seg.wrong{border-color:var(--red);background:var(--red-l)}.opt.wrong .mark{background:var(--red);border-color:var(--red)}
+.seg.right .tag{color:var(--green)}.seg.wrong .tag{color:var(--red)}
+.opt[disabled],.seg[disabled]{cursor:default}
+.badge{margin-left:auto;flex:none;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}.badge.ok{color:var(--green)}.badge.no{color:var(--red)}
+.segrow{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+.cls{padding:10px 0;border-bottom:1px solid var(--line)}.cls .it{font-weight:600;color:var(--ink)}
+.why{font-size:15px;border-radius:8px;padding:8px 12px;margin:4px 0 2px}.why.ok{background:var(--green-l);color:#14532D}.why.no{background:var(--red-l);color:#7A1F16}
+.fb{border-radius:10px;padding:12px 14px;margin-top:12px;font-size:16px}.fb b{display:block;font-family:Manrope,Arial,sans-serif;font-size:18px;margin-bottom:4px}.fb p+p{margin-top:6px}
+.fb.ok{background:var(--green-l);border-left:6px solid var(--green);color:#14532D}.fb.no{background:var(--red-l);border-left:6px solid var(--red);color:#7A1F16}.fb.info{background:var(--blue-l);border-left:6px solid var(--blue);color:var(--ink)}
+.btn{display:inline-block;background:var(--blue);color:#fff;border:0;border-radius:10px;padding:12px 18px;font:inherit;font-weight:700;cursor:pointer;margin-top:14px}
+.btn.secondary{background:transparent;color:var(--blue);border:2px solid var(--blue)}.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px}
+.score{font-family:Manrope,Arial,sans-serif;font-size:44px;color:var(--blue);font-weight:800}
+.lessons{padding-left:20px}.lessons li{margin:6px 0;color:var(--ink)}
+textarea,input[type=text],input[type=number],select{width:100%;font:inherit;border:2px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff;color:var(--ink)}
+label.f{display:block;font-weight:700;color:var(--ink);margin:14px 0 4px}label.f small{font-weight:400;color:var(--soft)}
+pre{white-space:pre-wrap;background:var(--navy);color:#F6F8FB;border-radius:10px;padding:14px;font-family:inherit;font-size:15px;min-height:60px}
+.coach{display:grid;gap:6px}.chk{font-size:15px;border-radius:8px;padding:8px 10px;background:#fff;border:1px solid var(--line)}
+.chk.ok b{color:var(--green)}.chk.mid b{color:var(--amber)}.chk.no b{color:var(--red)}.chk.risk{background:var(--red-l);border-color:var(--red);color:#7A1F16}
+.meter{height:12px;border-radius:6px;background:#E3E7EE;overflow:hidden;margin:6px 0 10px}.mfill{height:100%;width:0;transition:width .3s;background:var(--red)}
+.meter.mid .mfill{background:var(--yel)}.meter.good .mfill{background:var(--green)}
+.level{font-weight:700;color:var(--ink)}
+.tablewrap{overflow-x:auto;margin:6px 0 12px}
+table.perf{border-collapse:collapse;width:100%;font-size:14px}table.perf th{background:var(--navy);color:#fff;text-align:left;padding:6px}table.perf td{padding:6px;border-bottom:1px solid var(--line)}
+.note{font-size:14px;color:var(--soft);margin-top:16px}
+.bar{margin:6px 0 10px}.bar .lbl{display:flex;justify-content:space-between;gap:8px;font-size:15px}.bar .track{height:14px;background:#E3E7EE;border-radius:7px;overflow:hidden;margin-top:3px}.bar .fill{height:100%;background:var(--blue);border-radius:7px;transition:width .6s}.bar.okb .fill{background:var(--green)}
+.fbline.no{color:var(--red);font-weight:600;margin-top:8px}
+.words{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline}.words span{font-family:Manrope,Arial,sans-serif;color:var(--navy);font-weight:700}
+.aud{display:grid;grid-template-columns:1fr;gap:8px}.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}
+.big-num{font-family:Manrope,Arial,sans-serif;font-size:40px;color:var(--blue);font-weight:800;line-height:1.1}
+.step{display:inline-block;background:var(--yel-l);color:var(--navy);font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase;border-radius:6px;padding:3px 8px;margin-bottom:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+body.big main{max-width:1200px}body.big{font-size:22px}body.big .qtext{font-size:26px}body.big .bar .lbl{font-size:20px}body.big .bar .track{height:22px}body.big .big-num{font-size:64px}
+@media (prefers-reduced-motion:reduce){.bar .fill,.pfill,.mfill{transition:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">AI Comms Lab <span>· Day II</span></div>
+  <button id="homeBtn" type="button" aria-label="Back to all activities">All activities</button>
+</header>
+<main id="app" aria-live="polite"><noscript>Please turn on JavaScript to use the activities.</noscript></main>
+<script>
+/* =========================================================================
+   CONFIGURATION — edit these two lines before the event
+   BACKEND_URL: the Web App URL of the Google Apps Script (apps-script.gs).
+                Leave empty for practice mode (feedback works, no group results).
+   ROOM:        a short code for this event, so results do not mix with other events.
+   ========================================================================= */
+const BACKEND_URL = '';
+const ROOM = 'RESPA-DAY2';
+
+/* =========================================================================
+   AI Comms Lab · Day II — activity content
+   All examples are training material. Human-written texts in "Human or AI?"
+   are short excerpts published in 2019, before ChatGPT existed.
+   ========================================================================= */
+const IDEAS = ['RACER prompt','CROWDFG brief','Summarise, then verify','Question baskets and monitoring','Plain-language rewrite','Press release and Q&A','Message house and interview practice','Hooks, captions and series','Performance analysis','Other'];
+
+const ACTS = {
+
+/* ------------------------------------------------------------------ POLL */
+poll: {
+  title: 'Where are you today?', module: 'Welcome coffee', minutes: 1, poll: true,
+  intro: 'Three quick questions. Anonymous — no names, no emails.',
+  steps: [
+    {type:'choice', id:'p1', q:'How often do you use AI at work?', options:[{t:'Never'},{t:'A few times'},{t:'Every week'},{t:'Every day'}]},
+    {type:'choice', id:'p2', q:'Does your institution have rules for AI use?', options:[{t:'Yes, written rules'},{t:'Informal guidance only'},{t:'No, or I am not sure'}]},
+    {type:'choice', id:'p3', q:'Which part of your work takes the most time?', options:[{t:'Research and monitoring'},{t:'Writing and editing'},{t:'Media and press work'},{t:'Social media'},{t:'Reports and analysis'}]}
+  ],
+  lessons: ['Look at the screen: we will discuss the group results together.']
+},
+
+/* --------------------------------------------------------------- HUMAN */
+human: {
+  title: 'Human or AI?', module: 'Module 1 · warm-up', minutes: 4,
+  intro: 'Six short texts from the public sector. Decide: written by a person or generated by AI? You get the answer after each text.',
+  steps: [
+    {type:'choice', id:'h1', label:'Text 1 of 6', context:'“The third ReSPA Open Day was held on 18th June 2019 at the premises of Hotel Palace in Sarajevo (Bosnia and Herzegovina).”',
+     q:'Who wrote this?', options:[{t:'A person', ok:true},{t:'AI'}],
+     explain:'Written by a person. Source: ReSPA news, 20 June 2019 — before ChatGPT existed. Formal, slightly old-fashioned institutional style does not mean AI.'},
+    {type:'choice', id:'h2', label:'Text 2 of 6', context:'“We are thrilled to announce that our innovative digital platform is transforming the way citizens interact with public services, delivering seamless, efficient and user-centric experiences for everyone.”',
+     q:'Who wrote this?', options:[{t:'A person'},{t:'AI', ok:true}],
+     explain:'Generated by AI for this training. Typical signals: big promises (“transforming”), buzzwords (“seamless”, “user-centric”) and no concrete fact — no date, no number, no service name.'},
+    {type:'choice', id:'h3', label:'Text 3 of 6', context:'“It lets service teams send text messages, emails and letters to their users cheaply and easily, improving the user experience.”',
+     q:'Who wrote this?', options:[{t:'A person', ok:true},{t:'AI'}],
+     explain:'Written by a person. Source: UK Government Digital Service blog about GOV.UK Notify, December 2019. Plain and clear writing is not a sign of AI.'},
+    {type:'choice', id:'h4', label:'Text 4 of 6', context:'“From 1 March, you can renew your parking permit online in five minutes. No queues, no paper forms. Go to the city portal and follow three simple steps.”',
+     q:'Who wrote this?', options:[{t:'A person'},{t:'AI', ok:true}],
+     explain:'Generated by AI for this training (fictional). With a good brief, AI writes concrete, citizen-friendly text. So “it sounds human” is not proof. Check the facts, not the style.'},
+    {type:'choice', id:'h5', label:'Text 5 of 6', context:'“Organisations that use GOV.UK Notify range from government departments to county councils, NHS trusts to GP surgeries, and fire services to ambulance trusts.”',
+     q:'Who wrote this?', options:[{t:'A person', ok:true},{t:'AI'}],
+     explain:'Written by a person. Source: UK Government Digital Service blog, December 2019. Lists and parallel structure are common in human writing too.'},
+    {type:'choice', id:'h6', label:'Text 6 of 6', context:'“The workshop brought together participants from across the region to exchange experiences, discuss challenges and identify opportunities for further cooperation in the field of public administration reform.”',
+     q:'Who wrote this?', options:[{t:'A person'},{t:'AI', ok:true}],
+     explain:'Generated by AI for this training. It imitates institutional style perfectly — and says almost nothing: no date, no place, no result. Generic text is the real risk, whoever wrote it.'}
+  ],
+  lessons: ['Style is not proof. Formal texts can be human; concrete texts can be AI.',
+            'Judge a text by what it says: facts, sources, tone — not by how it sounds.',
+            'Generic text with no date, number or name is a warning sign, whoever wrote it.']
+},
+
+/* -------------------------------------------------------------- SAFETY */
+safety: {
+  title: 'Clean the brief', module: 'Challenge 1 · AI Safety Challenge', minutes: 6,
+  intro: 'A colleague wants to paste this request into a public AI tool. Make it safe — and keep what the task needs.',
+  steps: [
+    {type:'segments', id:'s', label:'Step 1 of 3',
+     q:'Tap every part that must be REMOVED before pasting. Then press “Check”.',
+     pick:'Remove', keep:'Keep',
+     segs:[
+      {t:'Please draft a short reply to a journalist about the PA Awards.', remove:false, why:'Keep. This is the task.'},
+      {t:'The journalist is Marko Ilić from City Post (marko.ilic@citypost.example, +382 67 123 456).', remove:true, why:'Remove. Name, email and phone are personal data. The AI does not need them to write the reply.'},
+      {t:'He asks why the application of the Ministry of Digital Affairs was not shortlisted.', remove:true, why:'Remove the institution’s name. Who was not shortlisted is unpublished evaluation information. Write: “He asks why an application was not shortlisted.”'},
+      {t:'Internal note: the panel gave it 54/100 and the chair thinks the application was weak.', remove:true, why:'Remove. Internal scores and opinions are confidential. They must never go into a public AI tool.'},
+      {t:'Official procedure: an independent panel of experts evaluates all applications against published criteria.', remove:false, why:'Keep. This is public information, and the reply needs it.'},
+      {t:'Tone: neutral and respectful. No comments on individual applications.', remove:false, why:'Keep. Clear limits make the answer safer.'},
+      {t:'Then send the reply directly to the journalist from your account.', remove:true, why:'Remove. AI drafts, a person sends. Never give an AI tool the task of sending messages for the institution.'},
+      {t:'Max 120 words. Mark anything you are not sure about [CHECK].', remove:false, why:'Keep. Length and uncertainty marks help you check the result.'}
+     ]},
+    {type:'classify', id:'d', label:'Step 2 of 3', q:'What type of data is this?', cats:['Public','Internal','Confidential','Personal'],
+     items:[
+      {t:'The published list of finalists on the website', c:0, why:'Public: it is already published.'},
+      {t:'A draft press release for next week', c:1, why:'Internal: not secret, but not public yet. Only in approved tools.'},
+      {t:'Panel scores before the official announcement', c:2, why:'Confidential: only with written approval — usually never in public AI tools.'},
+      {t:'A journalist’s private mobile number', c:3, why:'Personal data: do not paste it. The task does not need it.'}
+     ]},
+    {type:'choice', id:'a', label:'Step 3 of 3', q:'Who approves the final reply to the journalist?',
+     options:[
+      {t:'The AI tool, if it says it is confident', why:'No. AI cannot take responsibility, and “confident” is not proof.'},
+      {t:'The person who wrote the prompt, alone, to save time', why:'Not enough. For media replies, the responsible person or spokesperson approves.'},
+      {t:'The spokesperson or responsible manager, after checking the facts', ok:true, why:'Correct. A named, responsible person checks and approves.'},
+      {t:'Nobody — it is only a short reply', why:'No. Short replies to journalists can create big problems.'}]}
+  ],
+  lessons: ['Golden rule: if you would not send it to an external partner without approval, do not paste it into AI.',
+            'Remove names, contacts, internal scores and opinions. Keep the task, the public facts and the limits.',
+            'AI drafts. A responsible person checks, approves and sends.']
+},
+
+/* --------------------------------------------------------------- RACER */
+racer: {
+  title: 'RACER Builder', module: 'Challenge 2', minutes: 10,
+  intro: 'First spot what is missing in a weak prompt. Then build your own RACER prompt — the coach checks it as you type.',
+  steps: [
+    {type:'segments', id:'m', label:'Step 1 of 2', multiOnly:true,
+     q:'Weak prompt: “Write a post about the PA Awards. Make it good.” Which RACER parts are MISSING? Tap all that are missing, then press “Check”.',
+     pick:'Missing', keep:'Present',
+     segs:[
+      {t:'R · Role — which expert should the AI be?', remove:true, why:'Missing. No role: the AI does not know if it writes as a journalist, a citizen or an institution.'},
+      {t:'A · Action — what exactly must it do?', remove:false, why:'Present: “Write a post”. But it does not say which platform.'},
+      {t:'C · Context — audience, situation, sources', remove:true, why:'Missing. No audience and no facts. The AI will guess — and may invent.'},
+      {t:'E · Example — tone or structure to follow', remove:true, why:'Missing. Optional, but it helps a lot.'},
+      {t:'R · Result — length, format, limits', remove:true, why:'Missing. “Make it good” is not a criterion. Say what good means: length, one key number, no invented facts.'}
+     ]},
+    {type:'racer', id:'b', label:'Step 2 of 2'}
+  ],
+  lessons: ['Role + Action + Context already make a big difference.',
+            'Result is where quality is decided: length, format, limits, and [CHECK] for doubts.',
+            'Never put personal, confidential or unpublished data in a prompt for a public tool.']
+},
+
+/* -------------------------------------------------------------- ERRORS */
+errors: {
+  title: 'Find the 3 errors', module: 'Challenge 3 · Research and monitoring', minutes: 8,
+  intro: 'AI summaries sound convincing. Compare the summary with the source, line by line.',
+  steps: [
+    {type:'segments', id:'e', label:'Step 1 of 2', expect:3,
+     source:'Source (based on ReSPA news, 16 July 2026): The 2026 edition of the ReSPA–SIGMA Public Administration Awards received 67 applications from public administrations across the Western Balkans, Ukraine, Moldova and Armenia. ReSPA calls it the strongest response since the Awards were launched. An independent panel of experts will evaluate all applications against the competition criteria. Shortlisted initiatives and finalists will be announced in the coming months.',
+     q:'AI summary below. Tap the 3 sentences with an ERROR, then press “Check”.',
+     pick:'Error', keep:'Correct',
+     segs:[
+      {t:'The Awards 2026 attracted applications from public administrations in the Western Balkans, Ukraine, Moldova and Armenia.', remove:false, why:'Correct. Matches the source.'},
+      {t:'In total, 76 applications were submitted.', remove:true, why:'Error. The source says 67. Swapped digits are a classic error — always check numbers.'},
+      {t:'ReSPA calls this the strongest response since the Awards were launched.', remove:false, why:'Correct. Matches the source.'},
+      {t:'The applications are evaluated by ReSPA staff together with ministers from the participating countries.', remove:true, why:'Error. The source says an independent panel of experts. This error would damage trust in the whole competition.'},
+      {t:'Shortlisted initiatives and finalists will be announced in the coming months.', remove:false, why:'Correct. Matches the source.'},
+      {t:'Each winner will receive a cash prize of €10,000.', remove:true, why:'Error — invented. The source says nothing about money. Plausible details that are not in the source are the most dangerous errors.'}
+     ]},
+    {type:'classify', id:'b', label:'Step 2 of 2', q:'Question baskets: which basket does each question belong to?', cats:['Understand','Trust','Practical','Worry'],
+     items:[
+      {t:'“What are the PA Awards?”', c:0, why:'Understand: people need the basics first.'},
+      {t:'“Who decides which initiative wins?”', c:1, why:'Trust: explain the independent panel and the criteria.'},
+      {t:'“How can our municipality apply next time?”', c:2, why:'Practical: give steps, dates and a link.'},
+      {t:'“Is this just another ceremony with no real impact?”', c:3, why:'Worry: answer with results and examples, not slogans.'}
+     ]}
+  ],
+  lessons: ['Compare AI summaries with the source line by line. Numbers first.',
+            'The most dangerous errors sound plausible — like an invented prize.',
+            'Group what people ask into baskets. Each basket tells you what content to publish.']
+},
+
+/* --------------------------------------------------------------- PLAIN */
+plain: {
+  title: 'Plain Language Studio', module: 'Challenge 4 · Content', minutes: 8,
+  intro: 'Turn official language into words a citizen understands — without losing the facts.',
+  steps: [
+    {type:'plain', id:'w', label:'Step 1 of 2'},
+    {type:'choice', id:'c', label:'Step 2 of 2', q:'Which LinkedIn version would you approve?',
+     options:[
+      {t:'“🚀 Game-changing! The PA Awards 2026 will revolutionise public services across Europe with 100+ amazing projects! #innovation”', why:'No. Wrong number (67, not 100+), “across Europe” is not accurate, and the tone is exaggerated for an institution.'},
+      {t:'“Public services that work better for people: the PA Awards 2026 received 67 applications from across our region. An independent panel of experts will choose the winners. Follow the ceremony in October.”', ok:true, why:'Yes. Short, clear, correct facts, and a simple call to action.'},
+      {t:'“Within the framework of the PA Awards 2026, eligible initiatives demonstrating measurable improvements in public service delivery are subject to evaluation.”', why:'No. Correct, but written in official language. Nobody stops scrolling for this.'}]}
+  ],
+  lessons: ['Short sentences, common words, active voice.',
+            'Simplify, but keep every fact. Ask AI to list what it removed.',
+            'Same facts, different packaging for each channel.']
+},
+
+/* --------------------------------------------------------------- PRESS */
+press: {
+  title: 'Press Kit Builder', module: 'Challenge 5 · Media and PR', minutes: 10,
+  intro: 'Part A: build a CROWDFG brief for the award ceremony press release. Part B: handle a mistake. Training simulation — fictional.',
+  steps: [
+    {type:'choice', id:'c', label:'Part A · C — Context', q:'Which context is best?', options:[
+      {t:'“Write about the awards.”', why:'Too vague: no audience, no goal.'},
+      {t:'“Award ceremony of the PA Awards 2026. Audience: journalists in the region. Goal: accurate coverage of the winners.”', ok:true, why:'Yes: event, audience and goal.'},
+      {t:'“Everyone should read this.”', why:'“Everyone” is not an audience. AI will write for nobody.'}]},
+    {type:'choice', id:'r', label:'Part A · R — Restrictions', q:'Which restrictions are best?', options:[
+      {t:'“Be creative and add interesting details.”', why:'Dangerous: an invitation to invent facts.'},
+      {t:'“Use any sources from the internet.”', why:'Risky: unverified sources and old information.'},
+      {t:'“Use only the official winners list and the event note. No quotes unless approved. No ranking of countries.”', ok:true, why:'Yes: clear sources and clear limits — including a sensitive regional point.'}]},
+    {type:'choice', id:'o', label:'Part A · O — Output', q:'Which output is best?', options:[
+      {t:'“Headline, lead (who, what, when, where, why), three paragraphs, five Q&A.”', ok:true, why:'Yes: every part is defined, so you can check it.'},
+      {t:'“Something short.”', why:'Not checkable. How short? Which parts?'},
+      {t:'“As long as needed.”', why:'AI will usually write too much.'}]},
+    {type:'choice', id:'w', label:'Part A · W — Worked example', q:'Which worked example helps most?', options:[
+      {t:'“Write it like a famous newspaper.”', why:'Vague, and not our institutional voice.'},
+      {t:'“Q: Who chose the winners? A: An independent panel of experts, using published criteria.”', ok:true, why:'Yes: one good line shows the pattern, the tone and the length.'},
+      {t:'No example needed.', why:'Possible, but a short example makes the result much more consistent.'}]},
+    {type:'choice', id:'d', label:'Part A · D — Data', q:'Which data instruction is best?', options:[
+      {t:'“Use what you know about ReSPA.”', why:'No: AI memory can be outdated or wrong.'},
+      {t:'“1 · official winners list, 2 · event note, 3 · website. If they differ, use 1.”', ok:true, why:'Yes: sources with a clear priority.'},
+      {t:'“Search social media for opinions.”', why:'Not for a press release: opinions are not facts.'}]},
+    {type:'choice', id:'f', label:'Part A · F — Format', q:'Which format is best?', options:[
+      {t:'“Send it as an email to all journalists.”', why:'That is an action, not a format — and AI must not send anything.'},
+      {t:'“Any format.”', why:'You will lose time reformatting.'},
+      {t:'“Word document: one page of release, one page of Q&A.”', ok:true, why:'Yes: ready for review and approval.'}]},
+    {type:'choice', id:'g', label:'Part A · G — Guardrails', q:'Which guardrails are best?', options:[
+      {t:'“Mark unknowns [CHECK]. List every claim with its source. Do not send or publish.”', ok:true, why:'Yes: errors become visible, and a person stays in control.'},
+      {t:'“If something is missing, make a reasonable guess.”', why:'No: a “reasonable guess” in a press release is an invented fact.'},
+      {t:'“Publish it when it is ready.”', why:'No: AI never publishes. A person approves.'}]},
+    {type:'choice', id:'x', label:'Part B · The wrong name', context:'Training simulation: a press release drafted with AI was published at 10:00. At 10:40 you see that one winning institution has the wrong name. The real winner posts about it on LinkedIn.',
+     q:'What do you publish first?', options:[
+      {t:'Delete the press release quietly and hope nobody noticed.', why:'No. People already saw it — deleting looks like hiding.'},
+      {t:'A short correction in the same place: “Correction: the name of one winning institution was wrong. The correct name is [X]. We apologise to [X] and to our readers.” Plus a note and the time in the release.', ok:true, why:'Yes. Fast, honest, in the same place, with an apology to the affected institution.'},
+      {t:'A post explaining that the AI tool made the mistake, not the team.', why:'No. The institution is responsible, not the tool. Blaming AI damages trust even more.'}]},
+    {type:'choice', id:'q1', label:'Part B · Hard question 1', context:'Journalist: “Did you use AI to write the press release?”',
+     q:'Which answer do you give?', options:[
+      {t:'“No comment.”', why:'No. It sounds like hiding something.'},
+      {t:'“Yes, we used an AI tool for the first draft. Our team is responsible for the final text, and our check missed the error. We corrected it and strengthened our review.”', ok:true, why:'Yes. Honest, takes responsibility, shows the fix.'},
+      {t:'“The AI made the error, so it is not our responsibility.”', why:'No. Responsibility always stays with the institution.'}]},
+    {type:'choice', id:'q2', label:'Part B · Hard question 2', context:'Journalist: “How can we trust the list of winners now?”',
+     q:'Which answer do you give?', options:[
+      {t:'“Mistakes happen, do not worry about it.”', why:'No. It minimises the problem.'},
+      {t:'“We will review all the results again.”', why:'No. This creates doubt about results that are correct.'},
+      {t:'“The winners were chosen by an independent panel of experts. The error was in our press release, not in the results. The official list is on our website.”', ok:true, why:'Yes. Separates the communication error from the evaluation, and points to the official source.'}]},
+    {type:'choice', id:'q3', label:'Part B · Hard question 3', context:'Journalist: “What will you change?”',
+     q:'Which answer do you give?', options:[
+      {t:'“We will stop using AI completely.”', why:'Not the real fix. The gap was the review step, not the tool.'},
+      {t:'“Every name and number in our releases will now be checked by a second person against the official list before publishing.”', ok:true, why:'Yes. Concrete, credible, and it fixes the real gap.'},
+      {t:'“Nothing. It was a one-time error.”', why:'No. It shows that nothing was learned.'}]}
+  ],
+  lessons: ['CROWDFG makes the first draft checkable: sources, limits, structure, guardrails.',
+            'Correct fast, in the same place, and apologise to those affected.',
+            'Never blame the tool. Explain the fix: a second person checks every name and number.']
+},
+
+/* -------------------------------------------------------------- SOCIAL */
+social: {
+  title: 'Hook & Caption Lab', module: 'Challenge 6 · Social media', minutes: 8,
+  intro: 'Choose a hook, build a caption, then read the data. Facts first — always.',
+  steps: [
+    {type:'choice', id:'h', label:'Step 1 of 3 · Hook', q:'Which hook would you publish?', options:[
+      {t:'“You won’t BELIEVE what happened at the PA Awards!!!”', why:'Clickbait. It damages institutional credibility.'},
+      {t:'“67 applications. One goal: public services that work better for people.”', ok:true, why:'Yes: a real number and a clear benefit.'},
+      {t:'“Over 100 countries competed for the PA Awards 2026!”', why:'Wrong fact. AI often “improves” numbers. Always check them.'},
+      {t:'“Within the framework of the PA Awards, applications were received.”', why:'Correct, but nobody stops scrolling for official language.'},
+      {t:'“The best public administration in Europe will be revealed!”', why:'Exaggeration and ranking. Not accurate, and sensitive for a regional event.'}]},
+    {type:'choice', id:'v', label:'Step 2 of 3 · Value', q:'Choose the VALUE line.', options:[
+      {t:'“The PA Awards are the most important event of the year for everyone.”', why:'Exaggeration without proof.'},
+      {t:'“The PA Awards 2026 celebrate public services that deliver measurable results for citizens, businesses and communities.”', ok:true, why:'Yes: it says why it matters, in plain words.'},
+      {t:'“Winners will get big money prizes.”', why:'Not in the source. Prizes are trophies, certificates, recognition and learning journeys.'}]},
+    {type:'choice', id:'p', label:'Step 2 of 3 · Proof', q:'Choose the PROOF line.', options:[
+      {t:'“Trust us.”', why:'Not proof.'},
+      {t:'“According to experts.”', why:'Too vague. Which experts? Where?'},
+      {t:'“Source: ReSPA, 16 July 2026.”', ok:true, why:'Yes: a named source with a date.'}]},
+    {type:'choice', id:'a', label:'Step 2 of 3 · Action', q:'Choose the ACTION line.', options:[
+      {t:'“Follow the award ceremony in October.”', ok:true, why:'Yes: a simple, true next step.'},
+      {t:'“Apply today!”', why:'Wrong: applications closed in February 2026.'},
+      {t:'“Share now or miss out!”', why:'Pressure tactics do not fit a public institution.'}]},
+    {type:'choice', id:'alt', label:'Step 2 of 3 · Alt text', q:'Which alt text is best for the image?', options:[
+      {t:'“image_final_v2.png”', why:'Useless for people who use screen readers.'},
+      {t:'“Infographic: the number 67 in large yellow digits with the text ‘applications for the PA Awards 2026’.”', ok:true, why:'Yes: it describes what is shown and the message.'}]},
+    {type:'choice', id:'t1', label:'Step 3 of 3 · Performance', table:true,
+     q:'Which format should we REPEAT next month?', options:[
+      {t:'Short video', ok:true, why:'Yes. Highest engagement rate (about 12%) and the most shares.'},
+      {t:'Photo gallery', why:'Highest reach, but low engagement (about 4%). Reach is not everything.'},
+      {t:'Quote card', why:'Good (about 8%), but short video performs better.'},
+      {t:'Text-only update', why:'Lowest engagement (about 3%).'}]},
+    {type:'choice', id:'t2', label:'Step 3 of 3 · Performance', table:true,
+     q:'Before you decide, what must you check?', options:[
+      {t:'Nothing — the AI already calculated it.', why:'No. AI can miscalculate, especially with tables.'},
+      {t:'That the numbers are correct and the periods and topics are comparable.', ok:true, why:'Yes. Check the data, then decide one change and measure again.'}]}
+  ],
+  lessons: ['Hook · Value · Proof · Action — with facts from the source.',
+            'No clickbait, no exaggeration, no ranking of countries.',
+            'Reach is not everything: look at engagement, shares and questions. Check the numbers.']
+},
+
+/* --------------------------------------------------------------- FINAL */
+final: {
+  title: 'Final check', module: 'Summary and closing', minutes: 4,
+  intro: 'Six questions and one word. You see the answer after each question.',
+  steps: [
+    {type:'choice', id:'f1', q:'Who is responsible for a text drafted with AI and published by your institution?', options:[
+      {t:'The AI company'},{t:'The institution and the person who approved it', ok:true},{t:'Nobody'},{t:'Only the person who typed the prompt'}],
+     explain:'AI cannot take responsibility. People and institutions do.'},
+    {type:'choice', id:'f2', q:'What does the last R in RACER stand for?', options:[
+      {t:'Rules'},{t:'Result', ok:true},{t:'Review'},{t:'Reach'}],
+     explain:'Result: what the AI must deliver and how you will judge it — length, format, limits.'},
+    {type:'choice', id:'f3', q:'What does the G in CROWDFG stand for?', options:[
+      {t:'Goals'},{t:'Grammar'},{t:'Guardrails', ok:true},{t:'Graphics'}],
+     explain:'Guardrails: how the AI marks unknowns and what it must never do — for example send or publish.'},
+    {type:'choice', id:'f4', q:'Which data can you paste into a public AI tool?', options:[
+      {t:'Panel scores before publication'},{t:'A journalist’s phone number'},{t:'A published press release', ok:true},{t:'An unpublished decision'}],
+     explain:'Public data only. Golden rule: if you would not send it to an external partner without approval, do not paste it.'},
+    {type:'choice', id:'f5', q:'An AI summary says “76 applications”. The source says 67. What does this teach us?', options:[
+      {t:'AI is useless'},{t:'Always check numbers against the source', ok:true},{t:'Use a more expensive tool'},{t:'Numbers do not matter'}],
+     explain:'AI collects, you check. Numbers first, line by line.'},
+    {type:'choice', id:'f6', q:'In a crisis, a holding statement says…', options:[
+      {t:'The most likely cause, to stop rumours'},{t:'What we know, what we are doing, and when we will update', ok:true},{t:'Nothing until the investigation ends'},{t:'That AI is monitoring the situation'}],
+     explain:'Facts before speed. Never confirm or deny a cause before the facts are confirmed.'},
+    {type:'word', id:'w1', q:'One word to describe today'}
+  ],
+  lessons: ['AI drafts. People decide.', 'A good brief gives a good result: RACER and CROWDFG.', 'Check facts, tone and rules — every time.']
+}
+};
+
+/* Performance table for the social challenge (fictional numbers) */
+const PERF = [
+  ['Short video','4,200','310','95','120'], ['Photo gallery','5,100','150','12','30'],
+  ['Quote card','2,800','160','40','25'], ['Text-only update','1,900','40','3','15'],
+  ['Short video','3,900','280','88','110'], ['Photo gallery','4,800','140','10','28'],
+  ['Quote card','2,600','150','35','22'], ['Text-only update','2,000','45','4','12']];
+
+/* Official texts for the Plain Language Studio (training examples in the style of a call for applications) */
+const PLAIN_TEXTS = [
+  {id:'t1', label:'Purpose of the awards',
+   text:'Eligible initiatives shall demonstrate measurable improvements in the efficiency, effectiveness and inclusiveness of public service delivery through the application of user-centric design principles and interoperable digital solutions.',
+   facts:[{name:'results / measurable', re:/result|measur|show|prove|evidence/i},{name:'public services', re:/servic/i},{name:'people / citizens / everyone', re:/people|citizen|user|everyone|all of us|public/i}],
+   model:'We reward public services that work better for people: faster, simpler and open to everyone. Show us your results.'},
+  {id:'t2', label:'Who can apply',
+   text:'Applications shall be submitted by the competent public authority, which may apply jointly with non-profit organisations or academic institutions, provided that the public authority acts as the lead applicant.',
+   facts:[{name:'a public institution applies / leads', re:/public|institution|authorit|administration|ministry|municipal/i},{name:'it must lead', re:/lead|in charge|main applicant|first/i},{name:'partners can join (NGOs, universities)', re:/ngo|non-?profit|universit|academ|partner|civil society|together|jointly/i}],
+   model:'Public institutions can apply. They can team up with NGOs or universities, but the public institution must lead.'},
+  {id:'t3', label:'How winners are chosen',
+   text:'The evaluation of submitted applications shall be conducted by an independent panel of experts in accordance with the established competition criteria.',
+   facts:[{name:'independent', re:/independ/i},{name:'experts', re:/expert/i},{name:'criteria / rules', re:/criteri|rule|standard/i}],
+   model:'Independent experts review every application using clear, published criteria.'}
+];
+const JARGON = ['shall','eligible','pursuant','hereby','thereof','whereas','in accordance with','interoperable','user-centric','stakeholder','stakeholders','facilitate','leverage','synergy','synergies','implementation','framework','modalities','competent','aforementioned','inter alia','capacity building','deliverables','optimise','optimize','utilise','utilize','endeavour','commence'];
+
+/* --------------------------- AI time audit ------------------------------ */
+function num(v){ const n=parseFloat(String(v).replace(',','.')); return isFinite(n)&&n>=0? Math.min(n,60) : 0; }
+function fmt(n){ return (Math.round(n*10)/10).toString(); }
+function audit(){
+  const KEY='acl-time-'+ROOM;
+  let data={}; try{ data=JSON.parse(store(KEY)||'{}')||{}; }catch(e){ data={}; }
+  data.t=data.t||[{},{},{}];
+  const save=()=>store(KEY, JSON.stringify(data));
+  const AI=['Never','Sometimes','Regularly'];
+  const titles=[]; const before=el('div'); const after=el('div'); const sumB=el('div'); const sumA=el('div');
+  function field(label, node){ return el('label',{class:'f'}, label, node); }
+  data.t.forEach((t,i)=>{
+    const name=el('input',{type:'text',maxlength:'60',placeholder:['e.g. Weekly media summary','e.g. Social posts in two languages','e.g. Answering journalists’ questions'][i],'aria-label':'Task '+(i+1)}); name.value=t.name||'';
+    const h=el('input',{type:'number',min:'0',max:'60',step:'0.5',inputmode:'decimal','aria-label':'Hours per week now, task '+(i+1)}); h.value=t.h??'';
+    const ai=el('select',{'aria-label':'AI use today, task '+(i+1)}, el('option',{value:'',text:'Choose…'}), AI.map(a=>el('option',{value:a,text:a}))); ai.value=t.ai||'';
+    [name,h,ai].forEach(x=>x.addEventListener('input',()=>{ t.name=name.value.trim(); t.h=h.value; t.ai=ai.value; save(); upd(); }));
+    before.appendChild(el('div',{class:'card aud'}, el('div',{class:'qnum',text:'Task '+(i+1)}), name, el('div',{class:'row2'}, field('Hours per week',h), field('AI use now',ai))));
+  });
+  data.t.forEach((t,i)=>{
+    const title=el('div',{class:'qtext'}); titles[i]=title;
+    const idea=el('select',{'aria-label':'Idea from today, task '+(i+1)}, el('option',{value:'',text:'Choose…'}), IDEAS.map(a=>el('option',{value:a,text:a}))); idea.value=t.idea||'';
+    const h2=el('input',{type:'number',min:'0',max:'60',step:'0.5',inputmode:'decimal','aria-label':'Hours per week with AI, task '+(i+1)}); h2.value=t.h2??'';
+    [idea,h2].forEach(x=>x.addEventListener('input',()=>{ t.idea=idea.value; t.h2=h2.value; save(); upd(); }));
+    after.appendChild(el('div',{class:'card aud'}, title, el('div',{class:'row2'}, field('Idea from today',idea), field('Hours with AI',h2))));
+  });
+  function totals(){ let b=0,a=0,saved=0; data.t.forEach(t=>{ const hb=num(t.h); b+=hb; if(t.h2!==undefined&&t.h2!==''){ const ha=Math.min(num(t.h2),hb); a+=ha; saved+=hb-ha; } else a+=hb; }); return {b,a,saved}; }
+  function upd(){
+    data.t.forEach((t,i)=>{ titles[i].textContent=(t.name||'Task '+(i+1))+' · now '+fmt(num(t.h))+' h/week'; });
+    const T=totals();
+    sumB.replaceChildren(el('p',{class:'muted',text:'These three tasks take you'}), el('div',{class:'big-num',text:fmt(T.b)+' h per week'}));
+    sumA.replaceChildren(el('div',{class:'kpis'},
+      el('div',null, el('p',{class:'muted',text:'You could save'}), el('div',{class:'big-num',text:fmt(T.saved)+' h / week'})),
+      el('div',null, el('p',{class:'muted',text:'That is about (44 working weeks)'}), el('div',{class:'big-num',text:Math.round(T.saved*44/8)+' days / year'}))),
+      el('p',{class:'muted',text: T.b? Math.round(100*T.saved/T.b)+'% of the time you spend on these tasks today.' : ''}));
+  }
+  const btnB=el('button',{class:'btn',type:'button',text:'Save my “before”'});
+  const btnA=el('button',{class:'btn',type:'button',text:'Save my “after”'});
+  const msgB=el('p',{class:'note'}), msgA=el('p',{class:'note'});
+  btnB.addEventListener('click',()=>{
+    const T=totals(); if(!T.b){ msgB.textContent='Please add hours for at least one task.'; return; }
+    if(!store('acl-done-'+ROOM+'-time-b')){ send('time',[{q:'before_h',a:fmt(T.b)}].concat(data.t.filter(t=>t.ai).map((t,i)=>({q:'ai_'+(i+1),a:t.ai})))); store('acl-done-'+ROOM+'-time-b','1'); }
+    msgB.textContent='Saved. Your task names stay on this device — only the numbers go to the anonymous group total. Come back to this page at the end of the day.';
+  });
+  btnA.addEventListener('click',()=>{
+    const T=totals(); if(!data.t.some(t=>t.h2!==undefined&&t.h2!=='')){ msgA.textContent='Please add “hours with AI” for at least one task.'; return; }
+    if(!store('acl-done-'+ROOM+'-time-a')){ send('time',[{q:'saved_h',a:fmt(T.saved)}].concat(data.t.filter(t=>t.idea).map((t,i)=>({q:'idea_'+(i+1),a:t.idea})))); store('acl-done-'+ROOM+'-time-a','1'); }
+    msgA.textContent='Saved. Now choose the task with the biggest saving for your action commitment.';
+  });
+  app.replaceChildren(
+    el('p',{class:'eyebrow',text:'Personal activity'}), el('h1',{text:'My AI time audit'}),
+    el('p',{class:'muted',text:'Your task names stay on this device. Only hours and choices are sent to the anonymous group total.'}),
+    el('div',{class:'card'}, el('span',{class:'step',text:'Before · morning'}), el('h2',{text:'Where do you lose the most time each week?'}), el('p',{class:'muted',text:'Three tasks. A rough estimate is fine.'})),
+    before, el('div',{class:'card'}, sumB), btnB, msgB,
+    el('div',{class:'card',style:'margin-top:32px'}, el('span',{class:'step',text:'After · end of the day'}), el('h2',{text:'How much could you save with what you learned?'}), el('p',{class:'muted',text:'Hours with AI = hours per week for the same task, including the time you need to check and correct the AI output. Be honest.'})),
+    after, el('div',{class:'card'}, sumA), btnA, msgA
+  );
+  upd();
+}
+
+async function auditResults(){
+  document.body.classList.add('big');
+  const box=el('div'); const status=el('p',{class:'muted'});
+  app.replaceChildren(el('p',{class:'eyebrow',text:'Live results'}), el('h1',{text:'Our AI time audit'}), status, box);
+  if(!BACKEND_URL){ status.textContent='Offline mode: set BACKEND_URL in the page to show live results.'; return; }
+  function sum(c){ let s=0,n=0; Object.entries(c||{}).forEach(([v,k])=>{ s+=num(v)*k; n+=k; }); return {s,n}; }
+  function merge(counts,prefix){ const m={}; Object.keys(counts).filter(q=>q.indexOf(prefix)===0).forEach(q=>Object.entries(counts[q]).forEach(([a,n])=>m[a]=(m[a]||0)+n)); return m; }
+  function bars(title,labels,c){ const total=Object.values(c).reduce((a,b)=>a+b,0)||1; return el('div',{class:'card'}, el('div',{class:'qtext',text:title}), labels.filter(l=>c[l]||labels.length<5).map(l=>{ const n=c[l]||0; return el('div',{class:'bar'}, el('div',{class:'lbl'}, el('span',{text:l}), el('b',{text:n+' ('+Math.round(100*n/total)+'%)'})), el('div',{class:'track'}, el('div',{class:'fill',style:'width:'+(100*n/total)+'%'}))); })); }
+  async function load(){
+    try{
+      const r=await fetch(BACKEND_URL+'?room='+encodeURIComponent(ROOM)+'&quiz=time&t='+Date.now()); const d=await r.json(); const c=d.counts||{};
+      const B=sum(c.before_h), S=sum(c.saved_h);
+      status.textContent=(d.participants||0)+' participants · updates every 5 seconds';
+      box.replaceChildren(
+        el('div',{class:'card kpis'},
+          el('div',null, el('p',{class:'muted',text:'Before: our top 3 tasks take, per week'}), el('div',{class:'big-num',text:fmt(B.s)+' h'}), el('p',{class:'muted',text:B.n+' people'})),
+          el('div',null, el('p',{class:'muted',text:'After: together we could save, per week'}), el('div',{class:'big-num',text:fmt(S.s)+' h'}), el('p',{class:'muted',text:S.n+' people'+(S.n?' · '+fmt(S.s/S.n)+' h per person':'')})),
+          el('div',null, el('p',{class:'muted',text:'Per year (44 weeks, 8-hour days)'}), el('div',{class:'big-num',text:Math.round(S.s*44/8)+' days'}))),
+        bars('AI use today for these tasks',['Never','Sometimes','Regularly'],merge(c,'ai_')),
+        bars('Ideas from today we will use',IDEAS,merge(c,'idea_'))
+      );
+    }catch(e){ status.textContent='Could not load results. Check the internet connection or the BACKEND_URL.'; }
+  }
+  load(); clearInterval(window._t); window._t=setInterval(load,5000);
+}
+
+
+/* ------------------------------ Helpers --------------------------------- */
+const app = document.getElementById('app');
+const ORDER = ['poll','time','human','safety','racer','errors','plain','press','social','final'];
+const L = i => String.fromCharCode(65+i);
+function el(tag, attrs, ...kids){ const n=document.createElement(tag); if(attrs) for(const k in attrs){ const v=attrs[k]; if(v==null||v===false) continue; if(k==='class') n.className=v; else if(k==='text') n.textContent=v; else if(k==='html') n.innerHTML=v; else if(k.startsWith('on')) n.addEventListener(k.slice(2), v); else n.setAttribute(k, v); } kids.flat(Infinity).forEach(c=>{ if(c==null||c===false) return; n.appendChild(typeof c==='string'?document.createTextNode(c):c); }); return n; }
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); }catch(e){ return null; } }
+function clientId(){ let id=store('acl-client'); if(!id){ id=Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4); store('acl-client', id); } return id; }
+function go(q, view){ const p=new URLSearchParams(); if(q) p.set('q',q); if(view) p.set('view',view); history.pushState(null,'','?'+p.toString()); render(); window.scrollTo(0,0); }
+window.addEventListener('popstate', render);
+document.getElementById('homeBtn').addEventListener('click', ()=>go(null,null));
+async function send(quiz, answers){
+  if(!BACKEND_URL) return;
+  try{ await fetch(BACKEND_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({room:ROOM,quiz,client:clientId(),answers})}); }catch(e){}
+}
+function feedback(ok, title, lines){
+  return el('div',{class:'fb '+(ok===true?'ok':ok===false?'no':'info'),role:'status'},
+    el('b',{text:title}), lines.filter(Boolean).map(t=>el('p',{text:t})));
+}
+function nextBtn(ctx){ const last=ctx.isLast(); return el('button',{class:'btn',type:'button',text:last?'See my result →':'Next →',onclick:()=>ctx.next()}); }
+
+/* ------------------------------ Step types ------------------------------ */
+const STEP = {
+
+choice(s, ctx){
+  const box=el('div',{class:'card'});
+  if(s.label) box.append(el('div',{class:'qnum',text:s.label}));
+  if(s.context) box.append(el('blockquote',{text:s.context}));
+  if(s.table) box.append(perfTable());
+  box.append(el('div',{class:'qtext',text:s.q}));
+  const opts=el('div',{class:'opts'}); const fbz=el('div'); box.append(opts,fbz);
+  const btns=s.options.map((o,i)=>{
+    const b=el('button',{type:'button',class:'opt'}, el('span',{class:'mark','aria-hidden':'true'}), el('span',{text:o.t}));
+    b.addEventListener('click',()=>{
+      btns.forEach(x=>x.disabled=true); ctx.record(s.id,L(i));
+      if(ctx.poll){ b.classList.add('sel'); fbz.append(feedback(null,'Thank you — answer saved.',[]), nextBtn(ctx)); return; }
+      const ok=!!o.ok; ctx.point(ok);
+      b.classList.add(ok?'right':'wrong'); if(!ok) b.append(el('span',{class:'badge no',text:'✗ your answer'}));
+      const best=s.options.findIndex(x=>x.ok); if(best>=0){ btns[best].classList.add('right'); btns[best].append(el('span',{class:'badge ok',text:'✓ correct'})); }
+      const lines=[o.why, (!ok && best>=0 && s.options[best].why) ? 'Best answer: '+s.options[best].why : null, s.explain];
+      fbz.append(feedback(ok, ok?'Correct!':'Not quite.', lines), nextBtn(ctx));
+      fbz.scrollIntoView({behavior:'smooth',block:'nearest'});
+    });
+    opts.append(b); return b;
+  });
+  return box;
+},
+
+segments(s, ctx){
+  const box=el('div',{class:'card'});
+  if(s.label) box.append(el('div',{class:'qnum',text:s.label}));
+  if(s.source) box.append(el('blockquote',{class:'src',text:s.source}));
+  box.append(el('div',{class:'qtext',text:s.q}));
+  const picked=new Set(); const list=el('div',{class:'opts'}); const counter=el('p',{class:'muted'});
+  const check=el('button',{class:'btn',type:'button',text:'Check'}); const fbz=el('div');
+  function upd(){ counter.textContent = s.expect ? `Selected ${picked.size} of ${s.expect}` : `Selected: ${picked.size}`; check.disabled = picked.size===0; }
+  const rows=s.segs.map((g,i)=>{
+    const tag=el('span',{class:'tag'}); const b=el('button',{type:'button',class:'seg'}, el('span',{text:g.t}), tag);
+    b.addEventListener('click',()=>{ if(picked.has(i)){picked.delete(i); b.classList.remove('sel'); tag.textContent='';} else {picked.add(i); b.classList.add('sel'); tag.textContent=s.pick;} upd(); });
+    list.append(b); return b;
+  });
+  check.addEventListener('click',()=>{
+    check.remove(); let right=0;
+    rows.forEach((b,i)=>{ const g=s.segs[i]; const p=picked.has(i); const ok=(p===g.remove); if(ok) right++; ctx.point(ok); ctx.record(s.id+i, p?'P':'K');
+      b.disabled=true; b.classList.remove('sel'); b.classList.add(ok?'right':'wrong');
+      b.querySelector('.tag').textContent = (ok?'✓ ':'✗ ')+(g.remove?s.pick:s.keep);
+      b.after(el('div',{class:'why '+(ok?'ok':'no'),text:g.why})); });
+    fbz.append(feedback(right===s.segs.length, `You got ${right} of ${s.segs.length} right.`, [right===s.segs.length?'Excellent — every decision was correct.':'Read the explanations under each line in red.']), nextBtn(ctx));
+  });
+  upd(); box.append(list, counter, check, fbz); return box;
+},
+
+classify(s, ctx){
+  const box=el('div',{class:'card'});
+  if(s.label) box.append(el('div',{class:'qnum',text:s.label}));
+  box.append(el('div',{class:'qtext',text:s.q}));
+  let done=0; const fbz=el('div');
+  s.items.forEach((it,i)=>{
+    const wrap=el('div',{class:'cls'}, el('p',{class:'it',text:it.t}));
+    const row=el('div',{class:'segrow'}); const why=el('div');
+    const bs=s.cats.map((c,ci)=>{ const b=el('button',{type:'button',class:'opt small',text:c}); b.addEventListener('click',()=>{
+        bs.forEach(x=>x.disabled=true); const ok=ci===it.c; ctx.point(ok); ctx.record(s.id+i, L(ci));
+        b.classList.add(ok?'right':'wrong'); bs[it.c].classList.add('right');
+        why.append(el('div',{class:'why '+(ok?'ok':'no'),text:(ok?'✓ ':'✗ ')+it.why}));
+        if(++done===s.items.length){ fbz.append(nextBtn(ctx)); }
+      }); row.append(b); return b; });
+    wrap.append(row, why); box.append(wrap);
+  });
+  box.append(fbz); return box;
+},
+
+word(s, ctx){
+  const inp=el('input',{type:'text',maxlength:'30',placeholder:'Type one word','aria-label':s.q});
+  const b=el('button',{class:'btn',type:'button',text:'Submit'});
+  b.addEventListener('click',()=>{ const w=(inp.value.trim().split(/\s+/)[0]||'').toLowerCase().slice(0,30); if(w) ctx.record(s.id,w); ctx.next(); });
+  return el('div',{class:'card'}, el('div',{class:'qtext',text:s.q}), inp, b);
+},
+
+racer(s, ctx){
+  const F=[['r','R · Role','Which expert should the AI be?','You are a senior communication officer at a regional school of public administration.'],
+           ['a','A · Action','What exactly must it do? Start with a verb.','Write a LinkedIn post about the Public Administration Awards 2026.'],
+           ['c','C · Context','Audience, situation, and the facts or source to use.','Audience: civil servants and partners in the region. Use only this news item: 67 applications from the Western Balkans, Ukraine, Moldova and Armenia; an independent panel of experts evaluates them; ceremony in October 2026.'],
+           ['e','E · Example','Optional: the tone or structure to follow.','Warm and professional, like a short announcement from a public institution. One short paragraph and one line with the call to action.'],
+           ['x','R · Result','Length, format, limits — and how to mark doubts.','Max 900 characters, one key number, an invitation to follow the ceremony. No invented names or quotes. Mark anything you are not sure about [CHECK].']];
+  const inputs={}; const coach=el('div',{class:'coach'}); const meter=el('div',{class:'meter'},el('div',{class:'mfill'})); const level=el('p',{class:'level'});
+  const out=el('pre',{'aria-live':'polite'}); const fbz=el('div');
+  const form=el('div',{class:'card'}, el('div',{class:'qnum',text:s.label}), el('div',{class:'qtext',text:'Build your RACER prompt. Use a task from your time audit — or the awards story.'}),
+    F.map(([k,l,h])=>{ const t=el('textarea',{rows:k==='c'||k==='x'?'3':'2','aria-label':l,placeholder:h}); t.addEventListener('input',upd); inputs[k]=t; return [el('label',{class:'f'}, l, el('small',{text:' — '+h})), t]; }));
+  const has=(re,t)=>re.test(t);
+  function evaluate(){
+    const v=Object.fromEntries(F.map(([k])=>[k,inputs[k].value.trim()])); const all=Object.values(v).join(' ');
+    const C=[];
+    const roleWho=has(/\b(you are|you're|act as|as an?|imagine you are)\b/i,v.r), roleNoun=has(/officer|manager|specialist|editor|spokes|expert|journalist|advis|analyst|writer|consultant|coordinator|head of|director|assistant|strategist|communicator|adviser/i,v.r);
+    C.push({k:'Role', pts: roleWho&&roleNoun?15:(v.r.length>5?8:0), max:15, tip: !v.r?'Add a role, e.g. “You are a senior communication officer at a public institution.”': (!(roleWho&&roleNoun)?'Make the role specific: who is the AI and in which institution? Start with “You are…”':'')});
+    const verb=has(/^(please\s+)?(write|draft|summari[sz]e|rewrite|translate|create|prepare|compare|list|analy[sz]e|adapt|simplify|propose|edit|review|check|suggest|turn|convert|make a|give me|generate|outline)\b/i,v.a);
+    const obj=has(/post|e-?mail|release|summary|q&a|faq|caption|letter|speech|brief|report|reply|answer|message|article|script|invitation|table|plan|list|hooks?|headline|statement|newsletter|minutes|talking points/i,v.a);
+    C.push({k:'Action', pts:(verb?10:0)+(obj?10:0), max:20, tip: !v.a?'Say what the AI must do, starting with a verb: write, summarise, rewrite…': [!verb?'Start with a clear verb (write, summarise, rewrite, compare…). Avoid “help me” or “do something”.':'', !obj?'Name the output: a post, an email, a press release, a Q&A, a summary…':''].filter(Boolean).join(' ')});
+    const aud=has(/audience|citizen|journalist|civil servant|public|partner|young|reader|resident|media|staff|colleague|user|parents|students|business/i,v.c);
+    const src=has(/use only|based on|attached|paste|source|news item|document|following facts|facts:|from this|below|official/i,v.c);
+    C.push({k:'Context', pts:(aud?10:0)+(src?15:0), max:25, tip: !v.c?'Add the audience and the facts the AI must use.': [!aud?'Who is the audience? (citizens, journalists, civil servants…)':'', !src?'Give the facts or say “Use only this source: …” — otherwise the AI may invent.':''].filter(Boolean).join(' ')});
+    C.push({k:'Example', pts: v.e.length>=15?10:0, max:10, tip: v.e.length>=15?'':'Optional, but powerful: describe or paste the tone or structure you like.'});
+    const fmtOk=has(/\b(max|maximum|up to|under|words?|characters?|sentences?|bullets?|headline|paragraphs?|table|format|lines?|points?)\b/i,v.x);
+    const lim=has(/\b(no|not|don'?t|do not|never|avoid|without|only)\b/i,v.x);
+    const chk=has(/\[check\]|mark|unsure|not sure|uncertain|flag|highlight/i,v.x);
+    C.push({k:'Result', pts:(fmtOk?10:0)+(lim?10:0)+(chk?10:0), max:30, tip: !v.x?'Say what “good” means: length, format, limits.': [!fmtOk?'Add length or format (e.g. “max 120 words”, “3 bullet points”).':'', !lim?'Add one limit: what must the AI NOT do? (e.g. “No invented names or numbers.”)':'', !chk?'Ask the AI to mark doubts: “Mark anything you are not sure about [CHECK].”':''].filter(Boolean).join(' ')});
+    const risks=[];
+    if(/[\w.+-]+@[\w-]+\.[\w.]+/.test(all)) risks.push('An email address — personal data. Remove it.');
+    if(/\+?\d[\d\s\-\/]{7,}\d/.test(all)) risks.push('A phone or ID number — personal data. Remove it.');
+    if(/confidential|internal only|unpublished|classified|password|secret|not for publication|draft decision/i.test(all)) risks.push('Words like “confidential” or “unpublished” — this data must not go into a public AI tool.');
+    let score=C.reduce((a,c)=>a+c.pts,0)-risks.length*15; score=Math.max(0,Math.min(100,score));
+    return {C,risks,score,v};
+  }
+  function upd(){
+    const R=evaluate();
+    meter.firstChild.style.width=R.score+'%'; meter.className='meter '+(R.score>=80?'good':R.score>=50?'mid':'low');
+    level.textContent = `Prompt quality: ${R.score}/100 — ` + (R.risks.length?'⚠ data risk!': R.score>=80?'Strong prompt.':R.score>=50?'Good start — see the tips.':'Weak — the AI will have to guess.');
+    coach.replaceChildren(...R.C.map(c=>el('div',{class:'chk '+(c.pts>=c.max?'ok':c.pts>0?'mid':'no')}, el('b',{text:(c.pts>=c.max?'✓ ':c.pts>0?'◐ ':'○ ')+c.k}), c.tip?el('span',{text:' '+c.tip}):null)),
+      ...R.risks.map(r=>el('div',{class:'chk risk'}, el('b',{text:'⚠ Data safety '}), el('span',{text:r}))));
+    out.textContent=[R.v.r,R.v.a,R.v.c,R.v.e,R.v.x].filter(Boolean).join('\n');
+    return R;
+  }
+  const ex=el('button',{class:'btn secondary',type:'button',text:'Show an example'}); ex.addEventListener('click',()=>{ F.forEach(([k,,,p])=>inputs[k].value=p); upd(); });
+  const copy=el('button',{class:'btn secondary',type:'button',text:'Copy prompt'});
+  copy.addEventListener('click',async()=>{ try{ await navigator.clipboard.writeText(out.textContent); copy.textContent='Copied ✓'; }catch(e){ copy.textContent='Select the text and copy it'; } setTimeout(()=>copy.textContent='Copy prompt',2000); });
+  const done=el('button',{class:'btn',type:'button',text:'Check my prompt'});
+  done.addEventListener('click',()=>{
+    const R=upd(); done.remove(); ctx.record('b_score', String(Math.round(R.score/10)*10)); R.C.forEach(c=>ctx.record('b_'+c.k.toLowerCase(), c.pts>=c.max?'OK':c.pts>0?'PART':'MISS'));
+    if(R.risks.length) ctx.record('b_risk','YES'); ctx.point(R.score>=80&&!R.risks.length);
+    const missing=R.C.filter(c=>c.pts<c.max&&c.k!=='Example').map(c=>c.k);
+    fbz.append(feedback(R.score>=80&&!R.risks.length, R.risks.length?'Stop — remove the risky data first.':R.score>=80?'Strong prompt. You can use it tomorrow.':'Good start. Improve: '+(missing.join(', ')||'details')+'.',
+      ['Swap phones with your neighbour: can they judge the result without asking you?', R.score<80?'Tip: tap “Show an example” to compare with a strong prompt.':null]), nextBtn(ctx));
+  });
+  upd();
+  return el('div',{}, form, el('div',{class:'card'}, el('div',{class:'qnum',text:'Your coach'}), level, meter, coach), el('div',{class:'card'}, el('div',{class:'qnum',text:'Your full prompt'}), out, el('div',{class:'btnrow'},ex,copy)), done, fbz);
+},
+
+plain(s, ctx){
+  let cur=PLAIN_TEXTS[0];
+  const pick=el('div',{class:'segrow'}); const orig=el('blockquote'); const ta=el('textarea',{rows:'4',placeholder:'Your plain-language version (max 30 words)','aria-label':'Your plain-language version'});
+  const stats=el('div',{class:'coach'}); const meter=el('div',{class:'meter'},el('div',{class:'mfill'})); const level=el('p',{class:'level'}); const fbz=el('div');
+  const pbs=PLAIN_TEXTS.map(p=>{ const b=el('button',{type:'button',class:'opt small',text:p.label}); b.addEventListener('click',()=>{ cur=p; pbs.forEach(x=>x.classList.toggle('sel',x===b)); orig.textContent=p.text; upd(); }); pick.append(b); return b; });
+  pbs[0].classList.add('sel'); orig.textContent=cur.text;
+  const syl=w=>{ w=w.toLowerCase().replace(/[^a-z]/g,''); if(!w) return 0; if(w.length<=3) return 1; w=w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/,'').replace(/^y/,''); const m=w.match(/[aeiouy]{1,2}/g); return m?m.length:1; };
+  function evaluate(){
+    const t=ta.value.trim(); const words=t?t.split(/\s+/).filter(Boolean):[]; const sentences=t?t.split(/[.!?]+/).filter(x=>x.trim().length>0):[];
+    const avg=sentences.length?words.length/sentences.length:0;
+    const low=' '+t.toLowerCase()+' '; const jar=JARGON.filter(j=>new RegExp('\\b'+j.replace(/[-]/g,'[- ]?')+'\\b').test(low));
+    const longW=words.map(w=>w.replace(/[^A-Za-z\-']/g,'')).filter(w=>syl(w)>=4);
+    const facts=cur.facts.map(f=>({name:f.name, ok:f.re.test(t)}));
+    let sc=100; if(words.length>30) sc-=(words.length-30)*2; if(avg>15) sc-=Math.round((avg-15)*3); sc-=jar.length*10; if(longW.length>2) sc-=(longW.length-2)*5; sc-=facts.filter(f=>!f.ok).length*15; if(words.length<6) sc=Math.min(sc,30);
+    return {t,words,avg,jar,longW,facts,score:Math.max(0,Math.min(100,sc))};
+  }
+  function upd(){
+    const R=evaluate();
+    meter.firstChild.style.width=R.score+'%'; meter.className='meter '+(R.score>=80?'good':R.score>=50?'mid':'low');
+    level.textContent=R.t?`Clarity score: ${R.score}/100`:'Start typing — the coach checks your text live.';
+    const row=(ok,txt)=>el('div',{class:'chk '+(ok?'ok':'no')}, el('b',{text:(ok?'✓ ':'✗ ')}), el('span',{text:txt}));
+    stats.replaceChildren(
+      row(R.words.length>0&&R.words.length<=30, `Words: ${R.words.length} (target: 30 or fewer)`),
+      row(R.avg<=15, `Average sentence: ${Math.round(R.avg)} words (target: 15 or fewer)`),
+      row(R.jar.length===0, R.jar.length?`Official words to replace: ${R.jar.join(', ')}`:'No official jargon'),
+      row(R.longW.length<=2, R.longW.length>2?`Long words: ${R.longW.slice(0,5).join(', ')} — find shorter ones`:'Few long words'),
+      ...R.facts.map(f=>row(f.ok, (f.ok?'Fact kept: ':'Fact missing: ')+f.name)));
+    return R;
+  }
+  ta.addEventListener('input',upd);
+  const chk=el('button',{class:'btn',type:'button',text:'Check my version'});
+  chk.addEventListener('click',()=>{
+    const R=upd(); if(!R.t){ ta.focus(); return; } chk.remove(); pbs.forEach(b=>b.disabled=true); ta.readOnly=true;
+    ctx.record('w_text',cur.id); ctx.record('w_score',String(Math.round(R.score/10)*10)); ctx.point(R.score>=70);
+    const missing=R.facts.filter(f=>!f.ok).map(f=>f.name);
+    fbz.append(feedback(R.score>=70, R.score>=80?'Excellent — clear and complete.':R.score>=70?'Good — clear enough for citizens.':'Not yet clear enough.',
+      [missing.length?'You lost a fact: '+missing.join(', ')+'. Simplify, but keep every fact.':null, R.jar.length?'Replace official words like “'+R.jar[0]+'” with everyday words.':null, 'One possible version: “'+cur.model+'”']), nextBtn(ctx));
+  });
+  upd();
+  return el('div',{class:'card'}, el('div',{class:'qnum',text:s.label}), el('div',{class:'qtext',text:'Choose a text, then rewrite it for citizens.'}), pick, orig, ta,
+    el('div',{class:'card inner'}, level, meter, stats), chk, fbz);
+}
+};
+
+function perfTable(){
+  const t=el('table',{class:'perf'}, el('tr',{}, ['Format','Reach','Reactions','Shares','Clicks','Engagement'].map(h=>el('th',{text:h}))));
+  PERF.forEach(r=>{ const n=r.slice(1).map(x=>+x.replace(/,/g,'')); const er=((n[1]+n[2]+n[3])/n[0]*100).toFixed(1)+'%'; t.append(el('tr',{}, [...r,er].map(c=>el('td',{text:c})))); });
+  return el('div',{class:'tablewrap'}, t, el('p',{class:'muted small',text:'Fictional data, last 8 posts. Engagement = (reactions + shares + clicks) ÷ reach.'}));
+}
+
+/* ------------------------------ Runner ---------------------------------- */
+function runActivity(key){
+  const A=ACTS[key]; const st={i:0,score:0,max:0,answers:[]}; const doneKey='acl-done-'+ROOM+'-'+key;
+  const prog=el('div',{class:'prog'},el('div',{class:'pfill'})); const body=el('div');
+  app.replaceChildren(el('p',{class:'eyebrow',text:A.module+' · about '+A.minutes+' min'}), el('h1',{text:A.title}), el('p',{class:'muted',text:A.intro}), prog, body);
+  const ctx={ poll:!!A.poll, record:(q,a)=>st.answers.push({q,a}), point:ok=>{st.max++; if(ok) st.score++;},
+    isLast:()=>st.i===A.steps.length-1, next:()=>{ st.i++; draw(); app.scrollIntoView({behavior:'smooth'}); } };
+  function draw(){
+    prog.firstChild.style.width=(100*st.i/A.steps.length)+'%';
+    if(st.i>=A.steps.length) return finish();
+    body.replaceChildren(STEP[A.steps[st.i].type](A.steps[st.i], ctx));
+  }
+  function finish(){
+    const pct=st.max?Math.round(100*st.score/st.max):0;
+    if(!A.poll && st.max) st.answers.push({q:'score',a:String(pct)});
+    if(!store(doneKey)){ send(key, st.answers); store(doneKey,'1'); }
+    const head = A.poll ? el('div',{class:'card'}, el('h2',{text:'Thank you!'}), el('p',{text:'Look at the screen for the group results.'}))
+      : el('div',{class:'card'}, el('p',{class:'eyebrow',text:'Your result'}), el('div',{class:'score',text:st.score+' / '+st.max}),
+          el('p',{text: pct>=85?'Excellent — you are ready to use this at work.': pct>=60?'Good result. Read the lessons below once more.':'This is exactly why we practise. Read the lessons below.'}));
+    body.replaceChildren(head,
+      el('div',{class:'card'}, el('p',{class:'eyebrow',text:'Remember'}), el('ul',{class:'lessons'}, A.lessons.map(t=>el('li',{text:t})))),
+      store(doneKey)&&BACKEND_URL?el('p',{class:'note',text:'Your first answers are in the anonymous group results.'}):null,
+      el('div',{class:'btnrow'}, el('button',{class:'btn secondary',type:'button',text:'Try again',onclick:()=>runActivity(key)}), el('button',{class:'btn',type:'button',text:'All activities',onclick:()=>go(null)})));
+  }
+  draw();
+}
+
+/* ------------------------------ Home ------------------------------------ */
+function home(){
+  const tiles=ORDER.map(k=>{ const t= k==='time' ? {title:'My AI time audit', module:'Welcome coffee · and again at 15:30', minutes:2} : ACTS[k];
+    return el('button',{class:'tile',type:'button',onclick:()=>go(k)}, el('span',{class:'tmod',text:t.module}), el('b',{text:t.title}), el('span',{class:'muted',text:'about '+t.minutes+' min'})); });
+  app.replaceChildren(el('p',{class:'eyebrow',text:'Communicate Smarter · Day II'}), el('h1',{text:'AI Comms Lab'}),
+    el('p',{class:'muted',text:'Short challenges for public sector communicators. Choose the activity the trainer shows on screen. Anonymous — no names, no emails.'}),
+    el('div',{class:'grid'}, tiles),
+    el('p',{class:'note',text: BACKEND_URL?'Live mode: your first answers appear anonymously in the group results.':'Practice mode: your answers stay on this device.'}));
+}
+
+/* ------------------------------ Results --------------------------------- */
+function bar(label, n, total, ok){ return el('div',{class:'bar'+(ok?' okb':'')}, el('div',{class:'lbl'}, el('span',{text:(ok?'✓ ':'')+label}), el('b',{text:n+' ('+Math.round(100*n/(total||1))+'%)'})), el('div',{class:'track'}, el('div',{class:'fill',style:'width:'+(100*n/(total||1))+'%'}))); }
+async function results(key){
+  document.body.classList.add('big');
+  const A=ACTS[key]; const box=el('div'); const status=el('p',{class:'muted'});
+  app.replaceChildren(el('p',{class:'eyebrow',text:'Live results'}), el('h1',{text:A.title}), status, box);
+  if(!BACKEND_URL){ status.textContent='Practice mode: set BACKEND_URL in index.html to show live results.'; return; }
+  const sum=c=>Object.values(c||{}).reduce((a,b)=>a+b,0);
+  async function load(){
+    try{
+      const r=await fetch(BACKEND_URL+'?room='+encodeURIComponent(ROOM)+'&quiz='+encodeURIComponent(key)+'&t='+Date.now()); const d=await r.json(); const c=d.counts||{};
+      status.textContent=(d.participants||0)+' participants · updates every 5 seconds';
+      const cards=[];
+      if(c.score){ let s=0,n=0; Object.entries(c.score).forEach(([v,k])=>{s+=(+v)*k;n+=k;}); cards.push(el('div',{class:'card kpis'}, el('div',{}, el('p',{class:'muted',text:'Average score'}), el('div',{class:'big-num',text:Math.round(s/(n||1))+'%'})), el('div',{}, el('p',{class:'muted',text:'Finished'}), el('div',{class:'big-num',text:String(n)})))); }
+      A.steps.forEach(s=>{
+        if(s.type==='choice'){ const cc=c[s.id]||{}; const t=sum(cc); cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:(s.label?s.label+' · ':'')+s.q}), s.options.map((o,i)=>bar(o.t.length>90?o.t.slice(0,88)+'…':o.t, cc[L(i)]||0, t, o.ok)))); }
+        if(s.type==='segments'){ cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:s.q}), s.segs.map((g,i)=>{ const cc=c[s.id+i]||{}; const t=sum(cc); const right=g.remove?(cc.P||0):(cc.K||0); return bar((g.remove?s.pick+': ':s.keep+': ')+(g.t.length>80?g.t.slice(0,78)+'…':g.t), right, t, true); }), el('p',{class:'muted small',text:'Bars show how many people made the correct decision.'}))); }
+        if(s.type==='classify'){ cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:s.q}), s.items.map((it,i)=>{ const cc=c[s.id+i]||{}; return bar(it.t+' → '+s.cats[it.c], cc[L(it.c)]||0, sum(cc), true); }), el('p',{class:'muted small',text:'Bars show how many people chose the correct category.'}))); }
+        if(s.type==='word'){ const ws=Object.entries(c[s.id]||{}).sort((a,b)=>b[1]-a[1]).slice(0,40); const mx=ws.length?ws[0][1]:1; cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:s.q}), el('div',{class:'words'}, ws.map(([w,n])=>el('span',{style:'font-size:'+(20+34*n/mx)+'px',text:w}))))); }
+        if(s.type==='racer'){ const parts=['role','action','context','example','result']; cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:'RACER prompts: which parts were complete?'}), parts.map(p=>{ const cc=c['b_'+p]||{}; return bar(p[0].toUpperCase()+p.slice(1)+' complete', cc.OK||0, sum(cc), true); }), c.b_risk?el('p',{class:'fbline no',text:'⚠ '+(c.b_risk.YES||0)+' prompts contained risky data.'}):null)); }
+        if(s.type==='plain'){ const cc=c.w_score||{}; const t=sum(cc); cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:'Clarity scores of your plain-language versions'}), ['100','90','80','70','60','50','40','30','20','10','0'].filter(k=>cc[k]).map(k=>bar(k+' points',cc[k],t,(+k)>=70)))); }
+      });
+      box.replaceChildren(...cards);
+    }catch(e){ status.textContent='Could not load results. Check the internet connection or BACKEND_URL.'; }
+  }
+  load(); clearInterval(window._t); window._t=setInterval(load,5000);
+}
+
+/* ------------------------------ Router ---------------------------------- */
+function render(){
+  clearInterval(window._t); document.body.classList.remove('big');
+  const p=new URLSearchParams(location.search); let q=p.get('q'); const view=p.get('view');
+  if(q==='rocket') q='racer';
+  if(q==='time') return view==='results' ? auditResults() : audit();
+  if(q && ACTS[q]) return view==='results' ? results(q) : runActivity(q);
+  home();
+}
+render();
+
+</script>
+</body>
+</html>
