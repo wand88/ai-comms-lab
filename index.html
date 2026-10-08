@@ -73,6 +73,45 @@ table.perf{border-collapse:collapse;width:100%;font-size:14px}table.perf th{back
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
 body.big main{max-width:1200px}body.big{font-size:22px}body.big .qtext{font-size:26px}body.big .bar .lbl{font-size:20px}body.big .bar .track{height:22px}body.big .big-num{font-size:64px}
 @media (prefers-reduced-motion:reduce){.bar .fill,.pfill,.mfill{transition:none}}
+/* ---------- projector dashboards ---------- */
+body.proj{background:#0B1F3A;color:#E8EEF7}
+body.proj main{max-width:1500px;padding:24px 28px 60px}
+body.proj h1{color:#fff;font-size:44px}
+body.proj .eyebrow{color:#F4B731;font-size:15px}
+body.proj .stat{display:flex;align-items:center;gap:10px;color:#C9D5E6;font-size:16px;margin:4px 0 18px}
+.live{width:12px;height:12px;border-radius:50%;background:#3FB97A;box-shadow:0 0 0 0 rgba(63,185,122,.6);animation:pulse 2s infinite}
+.live.off{background:#E5674F;animation:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(63,185,122,.6)}70%{box-shadow:0 0 0 12px rgba(63,185,122,0)}100%{box-shadow:0 0 0 0 rgba(63,185,122,0)}}
+.kpirow{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:16px}
+.kpi,.ring{background:#13294A;border:1px solid #22406B;border-radius:16px;padding:20px 22px;display:flex;flex-direction:column;justify-content:center}
+.ring{align-items:center}
+.kpi.wide{grid-column:span 2}
+.kv{font-family:Manrope,Arial,sans-serif;font-size:58px;font-weight:800;color:#fff;line-height:1.05}
+.kl{color:#C9D5E6;font-size:16px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;margin-top:6px;text-align:center}
+.kpi .kl{text-align:left}
+.ks{color:#F4B731;font-size:17px;margin-top:4px;font-weight:600}
+.kh{color:#fff;font-size:21px;font-weight:600;line-height:1.3;margin-top:6px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(520px,1fr));gap:16px;margin-bottom:16px}
+.card.dk{background:#13294A;border:1px solid #22406B;color:#E8EEF7;margin-top:0;margin-bottom:16px;border-radius:16px;padding:22px}
+.grid2 .card.dk{margin-bottom:0}
+.card.dk h3{font-family:Manrope,Arial,sans-serif;color:#fff;font-size:22px;margin-bottom:14px}
+.span2{grid-column:1/-1}
+.ctx{color:#C9D5E6;font-size:16px;font-style:italic;margin:-6px 0 12px}
+.hb{margin:8px 0 14px}.hbl{display:flex;justify-content:space-between;gap:12px;font-size:18px;color:#E8EEF7}.hbl b{color:#fff;white-space:nowrap}
+.hbt{height:18px;background:#22406B;border-radius:9px;overflow:hidden;margin-top:5px}.hbf{height:100%;border-radius:9px}
+.anim .hbf{animation:grow .9s ease-out}
+@keyframes grow{from{width:0}}
+.stack{display:flex;height:18px;border-radius:9px;overflow:hidden;background:#22406B;margin-top:5px}
+.stackleg{display:flex;gap:18px;color:#C9D5E6;font-size:15px;margin-bottom:6px}.stackleg i,.lg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.donut{display:flex;align-items:center;gap:22px;flex-wrap:wrap}.legend{flex:1;min-width:220px}.lg{display:flex;align-items:center;gap:8px;font-size:17px;margin:6px 0}.lg span{flex:1}.lg b{color:#fff}
+.hist{display:flex;align-items:flex-end;gap:10px;height:200px;padding-top:10px}.hcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;height:100%}
+.hbar2{width:100%;border-radius:8px 8px 0 0;min-height:3px}.hn{color:#fff;font-weight:700;font-size:17px}.hx{color:#C9D5E6;font-size:14px}
+.anim .hbar2{animation:rise .9s ease-out}@keyframes rise{from{height:0}}
+.tlx{display:flex;justify-content:space-between;color:#C9D5E6;font-size:15px;margin-top:6px}.tlx b{color:#fff}
+.cloud{display:flex;flex-wrap:wrap;gap:6px 22px;align-items:baseline;justify-content:center;padding:10px}.cloud span{font-family:Manrope,Arial,sans-serif;font-weight:800}
+.warn{color:#F28C6B;font-weight:600;margin-top:10px}
+@media (max-width:700px){.kpi.wide{grid-column:auto}.grid2{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.anim .hbf,.anim .hbar2,.live{animation:none}}
 </style>
 </head>
 <body>
@@ -88,7 +127,7 @@ body.big main{max-width:1200px}body.big{font-size:22px}body.big .qtext{font-size
                 Leave empty for practice mode (feedback works, no group results).
    ROOM:        a short code for this event, so results do not mix with other events.
    ========================================================================= */
-const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbx541pH5UTQfCgY3ADrAGu7BLXoUeqOUtme_Wjfv2EYRHEAc7zhTQ7AuqeZaKwQQVXY/exec';
+const BACKEND_URL = '';
 const ROOM = 'RESPA-DAY2';
 
 /* =========================================================================
@@ -460,32 +499,207 @@ function audit(){
   upd();
 }
 
-async function auditResults(){
-  document.body.classList.add('big');
-  const box=el('div'); const status=el('p',{class:'muted'});
-  app.replaceChildren(el('p',{class:'eyebrow',text:'Live results'}), el('h1',{text:'Our AI time audit'}), status, box);
-  if(!BACKEND_URL){ status.textContent='Offline mode: set BACKEND_URL in the page to show live results.'; return; }
-  function sum(c){ let s=0,n=0; Object.entries(c||{}).forEach(([v,k])=>{ s+=num(v)*k; n+=k; }); return {s,n}; }
-  function merge(counts,prefix){ const m={}; Object.keys(counts).filter(q=>q.indexOf(prefix)===0).forEach(q=>Object.entries(counts[q]).forEach(([a,n])=>m[a]=(m[a]||0)+n)); return m; }
-  function bars(title,labels,c){ const total=Object.values(c).reduce((a,b)=>a+b,0)||1; return el('div',{class:'card'}, el('div',{class:'qtext',text:title}), labels.filter(l=>c[l]||labels.length<5).map(l=>{ const n=c[l]||0; return el('div',{class:'bar'}, el('div',{class:'lbl'}, el('span',{text:l}), el('b',{text:n+' ('+Math.round(100*n/total)+'%)'})), el('div',{class:'track'}, el('div',{class:'fill',style:'width:'+(100*n/total)+'%'}))); })); }
-  async function load(){
-    try{
-      const r=await fetch(BACKEND_URL+'?room='+encodeURIComponent(ROOM)+'&quiz=time&t='+Date.now()); const d=await r.json(); const c=d.counts||{};
-      const B=sum(c.before_h), S=sum(c.saved_h);
-      status.textContent=(d.participants||0)+' participants · updates every 5 seconds';
-      box.replaceChildren(
-        el('div',{class:'card kpis'},
-          el('div',null, el('p',{class:'muted',text:'Before: our top 3 tasks take, per week'}), el('div',{class:'big-num',text:fmt(B.s)+' h'}), el('p',{class:'muted',text:B.n+' people'})),
-          el('div',null, el('p',{class:'muted',text:'After: together we could save, per week'}), el('div',{class:'big-num',text:fmt(S.s)+' h'}), el('p',{class:'muted',text:S.n+' people'+(S.n?' · '+fmt(S.s/S.n)+' h per person':'')})),
-          el('div',null, el('p',{class:'muted',text:'Per year (44 weeks, 8-hour days)'}), el('div',{class:'big-num',text:Math.round(S.s*44/8)+' days'}))),
-        bars('AI use today for these tasks',['Never','Sometimes','Regularly'],merge(c,'ai_')),
-        bars('Ideas from today we will use',IDEAS,merge(c,'idea_'))
-      );
-    }catch(e){ status.textContent='Could not load results. Check the internet connection or the BACKEND_URL.'; }
-  }
-  load(); clearInterval(window._t); window._t=setInterval(load,5000);
+
+/* =========================================================================
+   Results dashboards (projector view)
+   ?q=<activity>&view=results   · one activity, live
+   ?view=day                    · overview of the whole day
+   add &demo=1 to preview with sample data (no backend needed)
+   ========================================================================= */
+const VC = {green:'#3FB97A', amber:'#F4B731', red:'#E5674F', blue:'#5B9BEF', soft:'#C9D5E6', track:'#22406B', card:'#13294A'};
+const PAL = ['#5B9BEF','#F4B731','#3FB97A','#E5674F','#B48CF2','#4FD1C5','#F28C6B','#9FB3D1'];
+const isDemo = () => new URLSearchParams(location.search).get('demo')==='1';
+const SVGNS='http://www.w3.org/2000/svg';
+function sv(tag, attrs, ...kids){ const n=document.createElementNS(SVGNS,tag); for(const k in (attrs||{})) n.setAttribute(k, attrs[k]); kids.flat().forEach(c=>{ if(c!=null) n.appendChild(typeof c==='string'?document.createTextNode(c):c); }); return n; }
+const sumC = c => Object.values(c||{}).reduce((a,b)=>a+b,0);
+const pctColor = p => p>=70?VC.green:p>=40?VC.amber:VC.red;
+const short = (t,n=60) => t.length>n ? t.slice(0,n-1)+'…' : t;
+const hhmm = d => d.toTimeString().slice(0,8);
+
+/* ---------- chart primitives ---------- */
+function ring(pct, label, color){
+  const r=54, c=2*Math.PI*r, v=Math.max(0,Math.min(100,pct||0));
+  return el('div',{class:'ring'}, sv('svg',{viewBox:'0 0 140 140',width:'150',height:'150',role:'img','aria-label':label+': '+Math.round(v)+'%'},
+      sv('circle',{cx:70,cy:70,r,fill:'none',stroke:VC.track,'stroke-width':16}),
+      sv('circle',{cx:70,cy:70,r,fill:'none',stroke:color||pctColor(v),'stroke-width':16,'stroke-linecap':'round','stroke-dasharray':(c*v/100)+' '+c,transform:'rotate(-90 70 70)'}),
+      sv('text',{x:70,y:78,'text-anchor':'middle','font-size':30,'font-weight':800,fill:'#fff','font-family':'Manrope, Arial'}, Math.round(v)+'%')),
+    el('p',{class:'kl',text:label}));
+}
+function kpi(value, label, sub){ return el('div',{class:'kpi'}, el('div',{class:'kv',text:String(value)}), el('p',{class:'kl',text:label}), sub?el('p',{class:'ks',text:sub}):null); }
+function hbar(label, value, max, color, right, mark){
+  const w = max? Math.max(0, Math.min(100, 100*value/max)) : 0;
+  return el('div',{class:'hb'}, el('div',{class:'hbl'}, el('span',{text:(mark||'')+label}), el('b',{text:right})), el('div',{class:'hbt'}, el('div',{class:'hbf',style:`width:${w}%;background:${color}`})));
+}
+function donut(parts, title){
+  const tot=parts.reduce((a,p)=>a+p.n,0)||1, r=60, c=2*Math.PI*r; let off=0;
+  const segs=parts.map((p,i)=>{ const len=c*p.n/tot; const s=sv('circle',{cx:80,cy:80,r,fill:'none',stroke:p.color||PAL[i%PAL.length],'stroke-width':30,'stroke-dasharray':len+' '+(c-len),'stroke-dashoffset':-off,transform:'rotate(-90 80 80)'}); off+=len; return s; });
+  return el('div',{class:'donut'}, sv('svg',{viewBox:'0 0 160 160',width:'180',height:'180',role:'img','aria-label':title}, sv('circle',{cx:80,cy:80,r,fill:'none',stroke:VC.track,'stroke-width':30}), ...segs,
+      sv('text',{x:80,y:88,'text-anchor':'middle','font-size':26,'font-weight':800,fill:'#fff','font-family':'Manrope, Arial'}, String(parts.reduce((a,p)=>a+p.n,0)))),
+    el('div',{class:'legend'}, parts.map((p,i)=>el('div',{class:'lg'}, el('i',{style:'background:'+(p.color||PAL[i%PAL.length])}), el('span',{text:short(p.label,48)}), el('b',{text:Math.round(100*p.n/tot)+'%'})))));
+}
+function histogram(buckets, title){ // buckets: [{label, n, color}]
+  const mx=Math.max(1,...buckets.map(b=>b.n));
+  return el('div',{class:'card dk'}, el('h3',{text:title}), el('div',{class:'hist'}, buckets.map(b=>el('div',{class:'hcol'}, el('span',{class:'hn',text:b.n?String(b.n):''}), el('div',{class:'hbar2',style:`height:${Math.round(150*b.n/mx)}px;background:${b.color||VC.blue}`}), el('span',{class:'hx',text:b.label})))));
+}
+function timeline(tl, title){
+  if(!tl || !tl.length) return null;
+  let cum=0; const pts=tl.map(([t,n])=>{cum+=n; return [t,cum];}); const W=560,Hh=170, mx=Math.max(1,cum);
+  const xs=i=> pts.length===1? W/2 : 10+i*(W-20)/(pts.length-1), ys=v=> Hh-10-(Hh-30)*v/mx;
+  const line=pts.map((p,i)=>`${xs(i)},${ys(p[1])}`).join(' ');
+  const area=`10,${Hh-10} `+line+` ${xs(pts.length-1)},${Hh-10}`;
+  return el('div',{class:'card dk'}, el('h3',{text:title}), sv('svg',{viewBox:`0 0 ${W} ${Hh}`,width:'100%',height:Hh,preserveAspectRatio:'none',role:'img','aria-label':title},
+      sv('polygon',{points:area,fill:'rgba(91,155,239,.25)'}), sv('polyline',{points:line,fill:'none',stroke:VC.amber,'stroke-width':4,'stroke-linejoin':'round','vector-effect':'non-scaling-stroke'})),
+    el('div',{class:'tlx'}, el('span',{text:pts[0][0]}), el('b',{text:cum+' people'}), el('span',{text:pts[pts.length-1][0]})));
+}
+function scoreHist(sc){
+  const b=[0,20,40,60,80].map(lo=>({label:lo+(lo===80?'–100':'–'+(lo+19))+'%', n:0, color:pctColor(lo+10)}));
+  Object.entries(sc||{}).forEach(([v,n])=>{ const i=Math.min(4,Math.floor((+v)/20)); b[i].n+=n; });
+  return histogram(b,'Score distribution');
+}
+function wordCloud(c){ const ws=Object.entries(c||{}).sort((a,b)=>b[1]-a[1]).slice(0,40); const mx=ws.length?ws[0][1]:1;
+  return el('div',{class:'cloud'}, ws.map(([w,n],i)=>el('span',{style:`font-size:${22+46*n/mx}px;color:${PAL[i%PAL.length]}`,text:w}))); }
+
+/* ---------- item statistics from activity content ---------- */
+function itemStats(A, c){
+  const items=[];
+  A.steps.forEach(s=>{
+    if(s.type==='choice' && s.options.some(o=>o.ok)){ const cc=c[s.id]||{}, t=sumC(cc), k=s.options.findIndex(o=>o.ok); items.push({label:(s.label?s.label+': ':'')+(s.context?s.context:s.q), pct:t?100*(cc[L(k)]||0)/t:null, n:t}); }
+    if(s.type==='segments') s.segs.forEach((g,i)=>{ const cc=c[s.id+i]||{}, t=sumC(cc), ok=g.remove?(cc.P||0):(cc.K||0); items.push({label:(g.remove?s.pick:s.keep)+': '+g.t, pct:t?100*ok/t:null, n:t}); });
+    if(s.type==='classify') s.items.forEach((it,i)=>{ const cc=c[s.id+i]||{}, t=sumC(cc); items.push({label:it.t+' → '+s.cats[it.c], pct:t?100*(cc[L(it.c)]||0)/t:null, n:t}); });
+  });
+  return items;
 }
 
+/* ---------- demo data ---------- */
+function mockCounts(key){
+  const A=ACTS[key]||{steps:[]}; const c={}; const N=18; const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+  A.steps.forEach(s=>{
+    if(s.type==='choice'){ const cc={}; const k=s.options.findIndex(o=>o.ok); let left=N; s.options.forEach((o,i)=>{ const v = i===s.options.length-1? left : (k===i? rnd(9,15) : rnd(0,Math.min(4,left))); cc[L(i)]=Math.max(0,Math.min(left,v)); left-=cc[L(i)]; }); c[s.id]=cc; }
+    if(s.type==='segments') s.segs.forEach((g,i)=>{ const ok=rnd(8,17); c[s.id+i]= g.remove?{P:ok,K:N-ok}:{K:ok,P:N-ok}; });
+    if(s.type==='classify') s.items.forEach((it,i)=>{ const ok=rnd(9,17); const cc={}; cc[L(it.c)]=ok; cc[L((it.c+1)%s.cats.length)]=N-ok; c[s.id+i]=cc; });
+    if(s.type==='word') c[s.id]={useful:6,practical:5,inspiring:3,'eye-opening':2,clear:2,smart:1,energising:1};
+    if(s.type==='racer'){ ['role','action','context','example','result'].forEach(p=>{ const ok=rnd(5,14); c['b_'+p]={OK:ok,PART:rnd(1,N-ok),MISS:2}; }); c.b_risk={YES:2}; }
+    if(s.type==='plain') c.w_score={'100':2,'90':4,'80':5,'70':3,'60':2,'40':1,'30':1};
+  });
+  if(!A.poll) c.score={'40':1,'50':2,'60':3,'70':4,'80':4,'90':3,'100':1};
+  if(key==='time'){ c.before_h={'6':3,'8':4,'10':5,'12':3,'15':2}; c.saved_h={'1.5':3,'2':5,'3':4,'4':2,'5':1}; c.ai_1={Never:8,Sometimes:6,Regularly:3}; c.ai_2={Never:9,Sometimes:5,Regularly:2}; c.idea_1={'RACER prompt':5,'CROWDFG brief':3,'Plain-language rewrite':4,'Summarise, then verify':3}; c.idea_2={'Hooks, captions and series':4,'Press release and Q&A':3}; }
+  const now=new Date(); const tl=[]; for(let i=9;i>=0;i--){ const d=new Date(now-i*60000); tl.push([d.toTimeString().slice(0,5), i===9?3:rnd(0,3)]); }
+  return {participants:N, counts:c, timeline:tl};
+}
+async function fetchCounts(key){
+  if(isDemo()) return mockCounts(key);
+  const r=await fetch(BACKEND_URL+'?room='+encodeURIComponent(ROOM)+'&quiz='+encodeURIComponent(key)+'&t='+Date.now());
+  return await r.json();
+}
+
+/* ---------- shell ---------- */
+function dashShell(eyebrow, title){
+  document.body.classList.add('proj');
+  const dot=el('span',{class:'live'}); const status=el('span',{text:'Connecting…'}); const box=el('div');
+  app.replaceChildren(el('p',{class:'eyebrow',text:eyebrow}), el('h1',{text:title}), el('p',{class:'stat'}, dot, status), box);
+  return {box, status, dot};
+}
+function startLoop(fn){ fn(); clearInterval(window._t); window._t=setInterval(fn, isDemo()?8000:5000); }
+function noBackend(S){ S.status.textContent='Practice mode: set BACKEND_URL in index.html — or add &demo=1 to the link to preview with sample data.'; S.dot.classList.add('off'); }
+
+/* ---------- one activity ---------- */
+async function results(key){
+  const A=ACTS[key]; const S=dashShell('Live results · '+A.module, A.title);
+  if(!BACKEND_URL && !isDemo()) return noBackend(S);
+  let first=true;
+  async function load(){
+    try{
+      const d=await fetchCounts(key); const c=d.counts||{};
+      S.status.textContent=(isDemo()?'Sample data · ':'Live · ')+'updated '+hhmm(new Date())+' · refreshes automatically';
+      const out=[];
+      // KPI row
+      const sc=c.score||{}; let ss=0,sn=0; Object.entries(sc).forEach(([v,k])=>{ss+=(+v)*k; sn+=k;});
+      const items=itemStats(A,c).filter(x=>x.pct!=null);
+      const hardest=items.slice().sort((a,b)=>a.pct-b.pct)[0];
+      const kp=[kpi(d.participants||0,'Participants')];
+      if(!A.poll){ kp.push(kpi(sn,'Finished')); kp.push(ring(sn?ss/sn:0,'Average score')); }
+      if(hardest) kp.push(el('div',{class:'kpi wide'}, el('p',{class:'kl',text:'Most difficult'}), el('p',{class:'kh',text:short(hardest.label,90)}), el('p',{class:'ks',text:Math.round(hardest.pct)+'% correct'})));
+      const row=[]; const tl=timeline(d.timeline,'Responses over time');
+      if(A.poll){ row.push(kp[0]); } else out.push(el('div',{class:'kpirow'}, kp));
+      if(tl) row.push(tl);
+      if(!A.poll && sn) row.push(scoreHist(sc));
+      if(row.length) out.push(el('div',{class:'grid2'}, row));
+      // question by question
+      if(items.length) out.push(el('div',{class:'card dk'}, el('h3',{text:'Question by question — % correct'}),
+        items.map(x=>hbar(short(x.label,85), x.pct, 100, pctColor(x.pct), Math.round(x.pct)+'%'))));
+      // details
+      const det=[];
+      A.steps.forEach(s=>{
+        if(s.type==='choice'){ const cc=c[s.id]||{}, t=sumC(cc);
+          if(A.poll || !s.options.some(o=>o.ok)) det.push(el('div',{class:'card dk'}, el('h3',{text:s.q}), donut(s.options.map((o,i)=>({label:o.t,n:cc[L(i)]||0})), s.q)));
+          else { const mx=Math.max(1,...s.options.map((o,i)=>cc[L(i)]||0));
+            det.push(el('div',{class:'card dk'}, el('h3',{text:(s.label?s.label+' · ':'')+s.q}), s.context?el('p',{class:'ctx',text:short(s.context,140)}):null,
+              s.options.map((o,i)=>{ const n=cc[L(i)]||0; return hbar(short(o.t,70), n, mx, o.ok?VC.green:VC.blue, n+' · '+Math.round(100*n/(t||1))+'%', o.ok?'✓ ':''); }))); }
+        }
+        if(s.type==='word') det.push(el('div',{class:'card dk span2'}, el('h3',{text:s.q}), wordCloud(c[s.id])));
+        if(s.type==='racer'){ const parts=['role','action','context','example','result'];
+          det.push(el('div',{class:'card dk span2'}, el('h3',{text:'RACER prompts — how complete was each part?'}),
+            el('div',{class:'stackleg'}, ['Complete','Partly','Missing'].map((l,i)=>el('span',{}, el('i',{style:'background:'+[VC.green,VC.amber,VC.red][i]}), l))),
+            parts.map(p=>{ const cc=c['b_'+p]||{}, t=sumC(cc)||1; return el('div',{class:'hb'}, el('div',{class:'hbl'}, el('span',{text:p[0].toUpperCase()+p.slice(1)}), el('b',{text:Math.round(100*(cc.OK||0)/t)+'% complete'})),
+              el('div',{class:'stack'}, [['OK',VC.green],['PART',VC.amber],['MISS',VC.red]].map(([k,col])=>el('div',{style:`width:${100*(cc[k]||0)/t}%;background:${col}`})))); }),
+            c.b_risk?el('p',{class:'warn',text:'⚠ '+(c.b_risk.YES||0)+' prompts contained risky data (email, phone number or confidential words).'}):null)); }
+        if(s.type==='plain'){ const cc=c.w_score||{}; det.push(histogram(['0','10','20','30','40','50','60','70','80','90','100'].map(k=>({label:k,n:cc[k]||0,color:pctColor(+k)})),'Clarity scores of your plain-language versions')); }
+      });
+      if(det.length) out.push(el('div',{class:'grid2'}, det));
+      S.box.replaceChildren(...out); if(first){ S.box.classList.add('anim'); first=false; } else S.box.classList.remove('anim');
+    }catch(e){ S.status.textContent='Could not load results — check the internet connection or BACKEND_URL. Retrying…'; S.dot.classList.add('off'); }
+  }
+  startLoop(load);
+}
+
+/* ---------- time audit ---------- */
+async function auditResults(){
+  const S=dashShell('Live results · AI time audit','Our AI time audit');
+  if(!BACKEND_URL && !isDemo()) return noBackend(S);
+  const sumV=c=>{ let s=0,n=0; Object.entries(c||{}).forEach(([v,k])=>{ s+=num(v)*k; n+=k; }); return {s,n}; };
+  const merge=(counts,prefix)=>{ const m={}; Object.keys(counts).filter(q=>q.indexOf(prefix)===0).forEach(q=>Object.entries(counts[q]).forEach(([a,n])=>m[a]=(m[a]||0)+n)); return m; };
+  async function load(){
+    try{
+      const d=await fetchCounts('time'); const c=d.counts||{}; const B=sumV(c.before_h), Sv=sumV(c.saved_h);
+      S.status.textContent=(isDemo()?'Sample data · ':'Live · ')+'updated '+hhmm(new Date());
+      const ai=merge(c,'ai_'), ideas=merge(c,'idea_'); const after=Math.max(0,B.s-Sv.s);
+      const ideaRows=Object.entries(ideas).sort((a,b)=>b[1]-a[1]); const imx=Math.max(1,...ideaRows.map(r=>r[1]));
+      S.box.replaceChildren(
+        el('div',{class:'kpirow'}, kpi(fmt(B.s)+' h','Before · per week',B.n+' people'), kpi(fmt(Sv.s)+' h','Could be saved · per week',Sv.n?fmt(Sv.s/Sv.n)+' h per person':'after 15:30'), kpi(Math.round(Sv.s*44/8)+' days','Saved per year','44 weeks · 8-hour days'), ring(B.s?100*Sv.s/B.s:0,'Share of time saved',VC.green)),
+        el('div',{class:'grid2'},
+          el('div',{class:'card dk'}, el('h3',{text:'Our top 3 tasks: hours per week'}), hbar('Before — without AI', B.s, Math.max(B.s,1), VC.red, fmt(B.s)+' h'), hbar('After — with AI, including checking', Sv.n?after:0, Math.max(B.s,1), VC.green, Sv.n?fmt(after)+' h':'at 15:30')),
+          el('div',{class:'card dk'}, el('h3',{text:'AI use today for these tasks'}), donut([{label:'Never',n:ai.Never||0,color:VC.red},{label:'Sometimes',n:ai.Sometimes||0,color:VC.amber},{label:'Regularly',n:ai.Regularly||0,color:VC.green}],'AI use today'))),
+        ideaRows.length?el('div',{class:'card dk'}, el('h3',{text:'Ideas from today we will use'}), ideaRows.map(([k,n],i)=>hbar(k,n,imx,PAL[i%PAL.length],String(n)))):null,
+        timeline(d.timeline,'Answers over time'));
+    }catch(e){ S.status.textContent='Could not load results — retrying…'; S.dot.classList.add('off'); }
+  }
+  startLoop(load);
+}
+
+/* ---------- the whole day ---------- */
+async function dayView(){
+  const S=dashShell('Communicate Smarter · Day II','Our day in numbers');
+  if(!BACKEND_URL && !isDemo()) return noBackend(S);
+  const keys=['human','safety','racer','errors','plain','press','social','final'];
+  async function load(){
+    try{
+      const all=await Promise.all(keys.map(k=>fetchCounts(k).catch(()=>({counts:{}}))));
+      const tm=await fetchCounts('time').catch(()=>({counts:{}}));
+      S.status.textContent=(isDemo()?'Sample data · ':'Live · ')+'updated '+hhmm(new Date());
+      const rows=keys.map((k,i)=>{ const sc=(all[i].counts||{}).score||{}; let s=0,n=0; Object.entries(sc).forEach(([v,c])=>{s+=(+v)*c;n+=c;}); return {k, title:ACTS[k].title, avg:n?s/n:null, n, p:all[i].participants||0}; });
+      const done=rows.filter(r=>r.avg!=null); const overall=done.length?done.reduce((a,r)=>a+r.avg,0)/done.length:0;
+      const tc=tm.counts||{}; let saved=0; Object.entries(tc.saved_h||{}).forEach(([v,k])=>saved+=num(v)*k);
+      const mxP=Math.max(1,...rows.map(r=>r.p));
+      S.box.replaceChildren(
+        el('div',{class:'kpirow'}, kpi(Math.max(0,...rows.map(r=>r.p)),'Participants'), kpi(rows.reduce((a,r)=>a+r.n,0),'Challenges completed'), ring(overall,'Average score, all challenges'), kpi(fmt(saved)+' h','Time we could save · per week')),
+        el('div',{class:'grid2'},
+          el('div',{class:'card dk'}, el('h3',{text:'Average score by challenge'}), rows.map(r=>hbar(r.title, r.avg||0, 100, r.avg==null?VC.track:pctColor(r.avg), r.avg==null?'—':Math.round(r.avg)+'%'))),
+          el('div',{class:'card dk'}, el('h3',{text:'Participation by challenge'}), rows.map((r,i)=>hbar(r.title, r.p, mxP, PAL[i%PAL.length], String(r.p))))),
+        (all[7].counts||{}).w1?el('div',{class:'card dk'}, el('h3',{text:'One word to describe today'}), wordCloud(all[7].counts.w1)):null);
+    }catch(e){ S.status.textContent='Could not load results — retrying…'; S.dot.classList.add('off'); }
+  }
+  startLoop(load);
+}
 
 /* ------------------------------ Helpers --------------------------------- */
 const app = document.getElementById('app');
@@ -729,39 +943,12 @@ function home(){
     el('p',{class:'note',text: BACKEND_URL?'Live mode: your first answers appear anonymously in the group results.':'Practice mode: your answers stay on this device.'}));
 }
 
-/* ------------------------------ Results --------------------------------- */
-function bar(label, n, total, ok){ return el('div',{class:'bar'+(ok?' okb':'')}, el('div',{class:'lbl'}, el('span',{text:(ok?'✓ ':'')+label}), el('b',{text:n+' ('+Math.round(100*n/(total||1))+'%)'})), el('div',{class:'track'}, el('div',{class:'fill',style:'width:'+(100*n/(total||1))+'%'}))); }
-async function results(key){
-  document.body.classList.add('big');
-  const A=ACTS[key]; const box=el('div'); const status=el('p',{class:'muted'});
-  app.replaceChildren(el('p',{class:'eyebrow',text:'Live results'}), el('h1',{text:A.title}), status, box);
-  if(!BACKEND_URL){ status.textContent='Practice mode: set BACKEND_URL in index.html to show live results.'; return; }
-  const sum=c=>Object.values(c||{}).reduce((a,b)=>a+b,0);
-  async function load(){
-    try{
-      const r=await fetch(BACKEND_URL+'?room='+encodeURIComponent(ROOM)+'&quiz='+encodeURIComponent(key)+'&t='+Date.now()); const d=await r.json(); const c=d.counts||{};
-      status.textContent=(d.participants||0)+' participants · updates every 5 seconds';
-      const cards=[];
-      if(c.score){ let s=0,n=0; Object.entries(c.score).forEach(([v,k])=>{s+=(+v)*k;n+=k;}); cards.push(el('div',{class:'card kpis'}, el('div',{}, el('p',{class:'muted',text:'Average score'}), el('div',{class:'big-num',text:Math.round(s/(n||1))+'%'})), el('div',{}, el('p',{class:'muted',text:'Finished'}), el('div',{class:'big-num',text:String(n)})))); }
-      A.steps.forEach(s=>{
-        if(s.type==='choice'){ const cc=c[s.id]||{}; const t=sum(cc); cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:(s.label?s.label+' · ':'')+s.q}), s.options.map((o,i)=>bar(o.t.length>90?o.t.slice(0,88)+'…':o.t, cc[L(i)]||0, t, o.ok)))); }
-        if(s.type==='segments'){ cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:s.q}), s.segs.map((g,i)=>{ const cc=c[s.id+i]||{}; const t=sum(cc); const right=g.remove?(cc.P||0):(cc.K||0); return bar((g.remove?s.pick+': ':s.keep+': ')+(g.t.length>80?g.t.slice(0,78)+'…':g.t), right, t, true); }), el('p',{class:'muted small',text:'Bars show how many people made the correct decision.'}))); }
-        if(s.type==='classify'){ cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:s.q}), s.items.map((it,i)=>{ const cc=c[s.id+i]||{}; return bar(it.t+' → '+s.cats[it.c], cc[L(it.c)]||0, sum(cc), true); }), el('p',{class:'muted small',text:'Bars show how many people chose the correct category.'}))); }
-        if(s.type==='word'){ const ws=Object.entries(c[s.id]||{}).sort((a,b)=>b[1]-a[1]).slice(0,40); const mx=ws.length?ws[0][1]:1; cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:s.q}), el('div',{class:'words'}, ws.map(([w,n])=>el('span',{style:'font-size:'+(20+34*n/mx)+'px',text:w}))))); }
-        if(s.type==='racer'){ const parts=['role','action','context','example','result']; cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:'RACER prompts: which parts were complete?'}), parts.map(p=>{ const cc=c['b_'+p]||{}; return bar(p[0].toUpperCase()+p.slice(1)+' complete', cc.OK||0, sum(cc), true); }), c.b_risk?el('p',{class:'fbline no',text:'⚠ '+(c.b_risk.YES||0)+' prompts contained risky data.'}):null)); }
-        if(s.type==='plain'){ const cc=c.w_score||{}; const t=sum(cc); cards.push(el('div',{class:'card'}, el('div',{class:'qtext',text:'Clarity scores of your plain-language versions'}), ['100','90','80','70','60','50','40','30','20','10','0'].filter(k=>cc[k]).map(k=>bar(k+' points',cc[k],t,(+k)>=70)))); }
-      });
-      box.replaceChildren(...cards);
-    }catch(e){ status.textContent='Could not load results. Check the internet connection or BACKEND_URL.'; }
-  }
-  load(); clearInterval(window._t); window._t=setInterval(load,5000);
-}
-
 /* ------------------------------ Router ---------------------------------- */
 function render(){
-  clearInterval(window._t); document.body.classList.remove('big');
+  clearInterval(window._t); document.body.classList.remove('big','proj');
   const p=new URLSearchParams(location.search); let q=p.get('q'); const view=p.get('view');
   if(q==='rocket') q='racer';
+  if(view==='day') return dayView();
   if(q==='time') return view==='results' ? auditResults() : audit();
   if(q && ACTS[q]) return view==='results' ? results(q) : runActivity(q);
   home();
